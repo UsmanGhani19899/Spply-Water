@@ -20,20 +20,20 @@ class _SignUpState extends State<SignUp> {
   // our form key
   final _formKey = GlobalKey<FormState>();
   // editing Controller
-  final firstNameEditingController = new TextEditingController();
-  final secondNameEditingController = new TextEditingController();
+  final nameController = new TextEditingController();
+  final addressController = new TextEditingController();
   final emailEditingController = new TextEditingController();
   final passwordEditingController = new TextEditingController();
-  final confirmPasswordEditingController = new TextEditingController();
+  final phoneNoController = new TextEditingController();
 
   Auth auth = Auth();
 
   @override
   Widget build(BuildContext context) {
     //first name field
-    final firstNameField = TextFormField(
+    final nameField = TextFormField(
         autofocus: false,
-        controller: firstNameEditingController,
+        controller: nameController,
         keyboardType: TextInputType.name,
         validator: (value) {
           RegExp regex = new RegExp(r'^.{3,}$');
@@ -46,7 +46,7 @@ class _SignUpState extends State<SignUp> {
           return null;
         },
         onSaved: (value) {
-          firstNameEditingController.text = value!;
+          nameController.text = value!;
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
@@ -59,24 +59,24 @@ class _SignUpState extends State<SignUp> {
         ));
 
     //second name field
-    final secondNameField = TextFormField(
+    final addressField = TextFormField(
         autofocus: false,
-        controller: secondNameEditingController,
+        controller: addressController,
         keyboardType: TextInputType.name,
         validator: (value) {
           if (value!.isEmpty) {
-            return ("Second Name cannot be Empty");
+            return ("Address cannot be Empty");
           }
           return null;
         },
         onSaved: (value) {
-          secondNameEditingController.text = value!;
+          addressController.text = value!;
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.account_circle),
+          prefixIcon: Icon(Icons.location_on),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Second Name",
+          hintText: "Address",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -99,7 +99,7 @@ class _SignUpState extends State<SignUp> {
           return null;
         },
         onSaved: (value) {
-          firstNameEditingController.text = value!;
+          emailEditingController.text = value!;
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
@@ -126,7 +126,7 @@ class _SignUpState extends State<SignUp> {
           }
         },
         onSaved: (value) {
-          firstNameEditingController.text = value!;
+          passwordEditingController.text = value!;
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
@@ -139,25 +139,28 @@ class _SignUpState extends State<SignUp> {
         ));
 
     //confirm password field
-    final confirmPasswordField = TextFormField(
+    final phoneNoField = TextFormField(
         autofocus: false,
-        controller: confirmPasswordEditingController,
-        obscureText: true,
+        controller: phoneNoController,
+        keyboardType: TextInputType.name,
         validator: (value) {
-          if (confirmPasswordEditingController.text !=
-              passwordEditingController.text) {
-            return "Password don't match";
+          RegExp regex = new RegExp(r'^.{3,}$');
+          if (value!.isEmpty) {
+            return ("First Name cannot be Empty");
+          }
+          if (!regex.hasMatch(value)) {
+            return ("Enter Valid name(Min. 3 Character)");
           }
           return null;
         },
         onSaved: (value) {
-          confirmPasswordEditingController.text = value!;
+          phoneNoController.text = value!;
         },
-        textInputAction: TextInputAction.done,
+        textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.vpn_key),
+          prefixIcon: Icon(Icons.account_circle),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Confirm Password",
+          hintText: "Phone No",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -176,8 +179,9 @@ class _SignUpState extends State<SignUp> {
               email: emailEditingController.text,
               formkey: _formKey,
               context: context,
-              namecontroller: firstNameEditingController,
-              secnamecontroller: secondNameEditingController,
+              namecontroller: nameController,
+              adressController: addressController,
+              phoneNocontroller: phoneNoController,
               password: passwordEditingController.text,
             );
           },
@@ -194,13 +198,6 @@ class _SignUpState extends State<SignUp> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.red),
-          onPressed: () {
-            // passing this to our root
-            Navigator.of(context).pop();
-          },
-        ),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -221,15 +218,15 @@ class _SignUpState extends State<SignUp> {
                           fit: BoxFit.contain,
                         )),
                     SizedBox(height: 45),
-                    firstNameField,
+                    nameField,
                     SizedBox(height: 20),
-                    secondNameField,
+                    addressField,
                     SizedBox(height: 20),
                     emailField,
                     SizedBox(height: 20),
                     passwordField,
                     SizedBox(height: 20),
-                    confirmPasswordField,
+                    phoneNoField,
                     SizedBox(height: 20),
                     signUpButton,
                     SizedBox(height: 15),
