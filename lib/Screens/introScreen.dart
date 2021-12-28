@@ -89,7 +89,7 @@ class IntroScreen extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("assets/images/backnew.png"),
+                      image: AssetImage("assets/images/b.jpg"),
                       fit: BoxFit.cover)),
               foregroundDecoration:
                   BoxDecoration(color: Colors.black.withOpacity(0.23)),

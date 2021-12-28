@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:water_supply/Globals/global_variable.dart';
 import 'package:water_supply/Screens/Admin/adminHome.dart';
 import 'package:water_supply/Screens/User/login.dart';
@@ -63,6 +64,9 @@ class _WaterSupplyState extends State<WaterSupply> {
     return GetMaterialApp(
       home: currentPage,
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        backgroundColor: HexColor("F2F2F2F2"),
+      ),
     );
   }
 }

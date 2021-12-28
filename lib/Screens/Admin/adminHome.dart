@@ -4,8 +4,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:water_supply/Core/auth.dart';
 import 'package:water_supply/Core/database.dart';
 import 'package:water_supply/Screens/Admin/order.dart';
+
+import '../introScreen.dart';
 
 class AdminHome extends StatefulWidget {
   const AdminHome({Key? key}) : super(key: key);
@@ -17,11 +20,34 @@ class AdminHome extends StatefulWidget {
 class _AdminHomeState extends State<AdminHome> with TickerProviderStateMixin {
   TabController? _tabController;
   final db = Database();
-
+  Auth _auth = Auth();
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+  }
+
+  showPopUp() {
+    return showDialog(
+        context: (context),
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Are you sure you want to logout."),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    _auth.logOut();
+                    Get.offAll(IntroScreen());
+                  },
+                  child: Text("Logout")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Cancel")),
+            ],
+          );
+        });
   }
 
   @override
@@ -30,23 +56,39 @@ class _AdminHomeState extends State<AdminHome> with TickerProviderStateMixin {
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
+          backgroundColor: Theme.of(context).backgroundColor,
           appBar: AppBar(
-            title: Text("Water Supply"),
+            backgroundColor: Colors.blue.shade900.withOpacity(0.9),
+            title: Text(
+              "Water Supply",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      showPopUp();
+                    });
+                  },
+                  icon: Icon(Icons.logout))
+            ],
+            bottom: TabBar(
+                indicatorColor: Colors.white,
+                labelColor: Colors.white,
+                controller: _tabController,
+                tabs: [
+                  Tab(
+                    child: Text("Requests"),
+                  ),
+                  Tab(
+                    child: Text("Approved"),
+                  ),
+                ]),
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TabBar(
-                  controller: _tabController,
-                  labelColor: Colors.black,
-                  tabs: [
-                    Tab(
-                      child: Text("Pending"),
-                    ),
-                    Tab(
-                      child: Text("Approved"),
-                    ),
-                  ]),
               Expanded(
                 child: TabBarView(controller: _tabController, children: [
                   StreamBuilder<QuerySnapshot>(
@@ -64,8 +106,8 @@ class _AdminHomeState extends State<AdminHome> with TickerProviderStateMixin {
 
                                 if (dcumet["accept"] == false) {
                                   return Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 10),
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 10),
                                     decoration:
                                         BoxDecoration(color: Colors.white),
                                     padding: EdgeInsets.symmetric(
@@ -155,7 +197,9 @@ class _AdminHomeState extends State<AdminHome> with TickerProviderStateMixin {
                                 }
                               });
                         } else {
-                          return CircularProgressIndicator();
+                          return Container(
+                              alignment: Alignment.center,
+                              child: CircularProgressIndicator());
                         }
                       }),
                   StreamBuilder<QuerySnapshot>(
@@ -173,8 +217,8 @@ class _AdminHomeState extends State<AdminHome> with TickerProviderStateMixin {
 
                                 if (dcumet["accept"] == true) {
                                   return Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 10),
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 10),
                                     decoration:
                                         BoxDecoration(color: Colors.white),
                                     padding: EdgeInsets.symmetric(
@@ -294,8 +338,6 @@ class _AdminHomeState extends State<AdminHome> with TickerProviderStateMixin {
                         } else {
                           return Container(
                               alignment: Alignment.center,
-                              height: 50,
-                              width: 50,
                               child: CircularProgressIndicator());
                         }
                       }),

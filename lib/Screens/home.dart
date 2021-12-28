@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 import 'package:water_supply/Core/auth.dart';
 import 'package:water_supply/Core/database.dart';
@@ -48,8 +49,12 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        toolbarHeight: 70,
-        title: Text("Water Supply"),
+        backgroundColor: Colors.blue.shade900.withOpacity(0.9),
+        title: Text(
+          "Water Supply",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
         actions: [
           IconButton(
               onPressed: () {
@@ -95,7 +100,7 @@ class _HomeState extends State<Home> {
                                 // ),
                                 SizedBox(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.05,
+                                      MediaQuery.of(context).size.height * 0.02,
                                 ),
                                 Divider(
                                   height:
@@ -156,10 +161,12 @@ class _HomeState extends State<Home> {
                                 ),
                                 SizedBox(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.05,
+                                      MediaQuery.of(context).size.height * 0.02,
                                 ),
                                 ElevatedButton(
                                     style: ElevatedButton.styleFrom(
+                                        primary: Colors.blue.shade900
+                                            .withOpacity(0.9),
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 80, vertical: 15),
                                         shape: RoundedRectangleBorder()),
@@ -175,11 +182,23 @@ class _HomeState extends State<Home> {
                               ],
                             ));
                       } else {
-                        return Center(child: Text("Request In Pending"));
+                        return Padding(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.3),
+                          child: Center(
+                            child: Text(
+                              "Please wait for admin approval",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.grey),
+                            ),
+                          ),
+                        );
                       }
                     });
               } else {
-                return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator());
               }
             }),
       ),

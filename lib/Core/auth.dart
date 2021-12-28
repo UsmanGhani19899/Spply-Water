@@ -4,7 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:water_supply/Core/database.dart';
 import 'package:water_supply/Screens/Admin/adminHome.dart';
-import 'package:water_supply/Screens/Admin/bottomBar.dart';
+import 'package:water_supply/Screens/Admin/admin_bottomBar.dart';
+import 'package:water_supply/Screens/User/customer_BottomBar.dart';
 import 'package:water_supply/Screens/home.dart';
 import 'package:water_supply/Globals/global_variable.dart' as globals;
 
@@ -82,7 +83,7 @@ class Auth {
                     globals.currentUserId = _auth.currentUser!.uid,
                     // print("${_auth.currentUser!.uid} aagrey"),
                     Fluttertoast.showToast(msg: "Login Successful"),
-                    Get.offAll(Home())
+                    Get.offAll(UserBottomBar())
                   });
         } else {
           print("globals.isAdmin ELSE");

@@ -9,6 +9,8 @@ import 'package:water_supply/Model/user_model.dart';
 import 'package:water_supply/Screens/home.dart';
 import 'package:water_supply/Widgets/app_text_field.dart';
 
+import 'login.dart';
+
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
@@ -53,9 +55,9 @@ class _SignUpState extends State<SignUp> {
           prefixIcon: Icon(Icons.account_circle),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "First Name",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
+          // border: OutlineInputBorder(
+          //   borderRadius: BorderRadius.circular(10),
+          // ),
         ));
 
     //second name field
@@ -77,9 +79,9 @@ class _SignUpState extends State<SignUp> {
           prefixIcon: Icon(Icons.location_on),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Address",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
+          // border: OutlineInputBorder(
+          //   borderRadius: BorderRadius.circular(10),
+          // ),
         ));
 
     //email field
@@ -106,9 +108,9 @@ class _SignUpState extends State<SignUp> {
           prefixIcon: Icon(Icons.mail),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Email",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
+          // border: OutlineInputBorder(
+          //   borderRadius: BorderRadius.circular(10),
+          // ),
         ));
 
     //password field
@@ -133,9 +135,9 @@ class _SignUpState extends State<SignUp> {
           prefixIcon: Icon(Icons.vpn_key),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Password",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
+          // border: OutlineInputBorder(
+          //   borderRadius: BorderRadius.circular(10),
+          // ),
         ));
 
     //confirm password field
@@ -161,16 +163,16 @@ class _SignUpState extends State<SignUp> {
           prefixIcon: Icon(Icons.account_circle),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Phone No",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
+          // border: OutlineInputBorder(
+          //   borderRadius: BorderRadius.circular(10),
+          // ),
         ));
 
     //signup button
     final signUpButton = Material(
       elevation: 5,
-      borderRadius: BorderRadius.circular(30),
-      color: Colors.redAccent,
+      borderRadius: BorderRadius.circular(10),
+      color: Colors.blue.shade900.withOpacity(0.9),
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
@@ -193,50 +195,122 @@ class _SignUpState extends State<SignUp> {
           )),
     );
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(36.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                        height: 180,
-                        child: Image.asset(
-                          "assets/logo.png",
-                          fit: BoxFit.contain,
-                        )),
-                    SizedBox(height: 45),
-                    nameField,
-                    SizedBox(height: 20),
-                    addressField,
-                    SizedBox(height: 20),
-                    emailField,
-                    SizedBox(height: 20),
-                    passwordField,
-                    SizedBox(height: 20),
-                    phoneNoField,
-                    SizedBox(height: 20),
-                    signUpButton,
-                    SizedBox(height: 15),
-                  ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        // appBar: AppBar(
+        //   backgroundColor: Colors.transparent,
+        //   elevation: 0,
+        // ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                child: ClipPath(
+                  clipper: WaveClipper(),
+                  child: Container(
+                      padding: EdgeInsets.only(left: 20, top: 20, right: 20),
+                      color: Colors.blue.shade900.withOpacity(0.9),
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      alignment: Alignment.topLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                              onTap: () {},
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.white,
+                              )),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.1,
+                          ),
+                          Text(
+                            "Create\nAn Account",
+                            style: TextStyle(
+                              fontSize: 34,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      )),
                 ),
               ),
-            ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        nameField,
+                        SizedBox(
+                          height: 15,
+                        ),
+                        emailField,
+                        SizedBox(
+                          height: 15,
+                        ),
+                        addressField,
+                        SizedBox(
+                          height: 15,
+                        ),
+                        passwordField,
+                        SizedBox(
+                          height: 15,
+                        ),
+                        phoneNoField,
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                        ),
+                        signUpButton,
+                        SizedBox(
+                          height: 15,
+                        ),
+                      ],
+                    )),
+              )
+            ],
           ),
         ),
       ),
     );
+    // body: Center(
+    //   child: SingleChildScrollView(
+    //     child: Container(
+    //       color: Colors.white,
+    //       child: Padding(
+    //         padding: const EdgeInsets.all(36.0),
+    //         child: Form(
+    //           key: _formKey,
+    //           child: Column(
+    //             mainAxisAlignment: MainAxisAlignment.center,
+    //             crossAxisAlignment: CrossAxisAlignment.center,
+    //             children: <Widget>[
+    //               SizedBox(
+    //                   height: 180,
+    //                   child: Image.asset(
+    //                     "assets/logo.png",
+    //                     fit: BoxFit.contain,
+    //                   )),
+    //               SizedBox(height: 45),
+    //               nameField,
+    //               SizedBox(height: 20),
+    //               addressField,
+    //               SizedBox(height: 20),
+    //               emailField,
+    //               SizedBox(height: 20),
+    //               passwordField,
+    //               SizedBox(height: 20),
+    //               phoneNoField,
+    //               SizedBox(height: 20),
+    //               signUpButton,
+    //               SizedBox(height: 15),
+    //             ],
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // ),
   }
 }

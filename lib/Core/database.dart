@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:water_supply/Model/orderModel.dart';
 import 'package:water_supply/Model/user_model.dart';
+import 'package:water_supply/Screens/User/customer_BottomBar.dart';
 import 'package:water_supply/Screens/home.dart';
 
 class Database {
@@ -45,8 +46,10 @@ class Database {
         .set(userModel.toMap());
     Fluttertoast.showToast(msg: "Account created successfully :) ");
 
-    Navigator.pushAndRemoveUntil((context!),
-        MaterialPageRoute(builder: (context) => Home()), (route) => false);
+    Navigator.pushAndRemoveUntil(
+        (context!),
+        MaterialPageRoute(builder: (context) => UserBottomBar()),
+        (route) => false);
   }
 
   Future updateBool(String id) async {
