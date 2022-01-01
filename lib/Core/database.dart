@@ -39,6 +39,7 @@ class Database {
     userModel.address = adressController!.text;
     userModel.phoneNo = phoneNoController!.text;
     userModel.accept = false;
+    userModel.isAdmin = false;
 
     await firebaseFirestore
         .collection("users")
@@ -46,10 +47,10 @@ class Database {
         .set(userModel.toMap());
     Fluttertoast.showToast(msg: "Account created successfully :) ");
 
-    Navigator.pushAndRemoveUntil(
-        (context!),
-        MaterialPageRoute(builder: (context) => UserBottomBar()),
-        (route) => false);
+    // Navigator.pushAndRemoveUntil(
+    //     (context!),
+    //     MaterialPageRoute(builder: (context) => UserBottomBar()),
+    //     (route) => false);
   }
 
   Future updateBool(String id) async {
@@ -65,10 +66,7 @@ class Database {
   // }
 
   Stream<QuerySnapshot> readItems() {
-    CollectionReference notesItemCollection =
-        _mainCollection!.doc().collection('users');
-
-    return notesItemCollection.snapshots();
+    return FirebaseFirestore.instance.collection("users").snapshots();
   }
 
   // Future<void> deleteItem({

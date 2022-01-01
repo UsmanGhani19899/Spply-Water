@@ -100,41 +100,29 @@ class _LoginState extends State<Login> {
           //   borderRadius: BorderRadius.circular(10),
           // ),
         ));
-    final signUpButton = isloading == false
-        ? Material(
-            elevation: 5,
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.blue.shade900.withOpacity(0.9),
-            child: MaterialButton(
-                padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                minWidth: MediaQuery.of(context).size.width,
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    setState(() {
-                      isloading = true;
-                    });
-                    auth.signIn(
-                        email: emailEditingController.text,
-                        password: passwordEditingController.text,
-                        formkey: _formKey,
-                        context: context);
-                  }
-                  if (user == null) {
-                    setState(() {
-                      isloading = false;
-                    });
-                  }
-                },
-                child: Text(
-                  "SignIn",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                )),
-          )
-        : CircularProgressIndicator();
+    final signUpButton = Material(
+      elevation: 5,
+      borderRadius: BorderRadius.circular(10),
+      color: Colors.blue.shade900.withOpacity(0.9),
+      child: MaterialButton(
+          padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          minWidth: MediaQuery.of(context).size.width,
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              auth.signIn(
+                  email: emailEditingController.text,
+                  password: passwordEditingController.text,
+                  formkey: _formKey,
+                  context: context);
+            }
+          },
+          child: Text(
+            "SignIn",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          )),
+    );
 
     return SafeArea(
         child: Scaffold(
@@ -189,9 +177,7 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.08,
                   ),
-                  isloading == false
-                      ? signUpButton
-                      : CircularProgressIndicator(),
+                  signUpButton
                 ],
               ),
             ),

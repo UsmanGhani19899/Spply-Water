@@ -60,7 +60,7 @@ class _OrderScreenState extends State<OrderScreen>
                 child: TabBarView(controller: _tabController, children: [
                   StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
-                          .collection('users')
+                          .collection('orders')
                           .doc()
                           .collection('orders')
                           .snapshots(),

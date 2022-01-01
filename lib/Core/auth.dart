@@ -6,6 +6,7 @@ import 'package:water_supply/Core/database.dart';
 import 'package:water_supply/Screens/Admin/adminHome.dart';
 import 'package:water_supply/Screens/Admin/admin_bottomBar.dart';
 import 'package:water_supply/Screens/User/customer_BottomBar.dart';
+import 'package:water_supply/Screens/User/login.dart';
 import 'package:water_supply/Screens/home.dart';
 import 'package:water_supply/Globals/global_variable.dart' as globals;
 
@@ -29,13 +30,15 @@ class Auth {
             .createUserWithEmailAndPassword(email: email!, password: password!)
             .then((value) => {
                   database.postDetailsToFirestore(
-                      nameController: namecontroller,
-                      phoneNoController: phoneNocontroller,
-                      adressController: adressController,
-                      context: context)
+                    nameController: namecontroller,
+                    phoneNoController: phoneNocontroller,
+                    adressController: adressController,
+                    context: context,
+                  )
                 })
             .catchError((e) {
           Fluttertoast.showToast(msg: e!.message);
+          Get.offAll(Home());
         });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {
@@ -76,12 +79,13 @@ class Auth {
     if (formkey!.currentState!.validate()) {
       try {
         print("globals.isAdmin");
+
         if (globals.isAdmin == false) {
           await _auth
               .signInWithEmailAndPassword(email: email!, password: password!)
               .then((uid) => {
                     globals.currentUserId = _auth.currentUser!.uid,
-                    // print("${_auth.currentUser!.uid} aagrey"),
+                    database.readItems(),
                     Fluttertoast.showToast(msg: "Login Successful"),
                     Get.offAll(UserBottomBar())
                   });

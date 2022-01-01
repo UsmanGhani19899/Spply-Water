@@ -5,13 +5,15 @@ class UserModel {
   String? address;
   String? phoneNo;
   bool? accept = false;
+  bool? isAdmin;
   UserModel(
       {this.uid,
       this.email,
       this.name,
       this.address,
       this.phoneNo,
-      this.accept});
+      this.accept,
+      this.isAdmin});
 
   // receiving data from server
   factory UserModel.fromMap(map) {
@@ -22,6 +24,7 @@ class UserModel {
       address: map['address'],
       phoneNo: map['phoneNo'],
       accept: map["accept"],
+      isAdmin: map["isAdmin"],
     );
   }
 
@@ -34,6 +37,7 @@ class UserModel {
       'address': address,
       'phoneNo': phoneNo,
       'accept': accept,
+      'isAdmin': isAdmin,
     };
   }
 }

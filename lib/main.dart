@@ -28,35 +28,30 @@ class WaterSupply extends StatefulWidget {
 }
 
 class _WaterSupplyState extends State<WaterSupply> {
-  late StreamSubscription<User?> user;
-  Widget currentPage = IntroScreen();
+  Widget currentPage = Splash();
+
   void initState() {
     super.initState();
-    user = FirebaseAuth.instance.authStateChanges().listen((user) {
-      if (user == null) {
-        setState(() {
-          currentPage = IntroScreen();
-        });
-      } else if (isAdmin == null) {
-        setState(() {
-          currentPage = IntroScreen();
-        });
-      } else if (isAdmin != null) {
-        setState(() {
-          currentPage = AdminHome();
-        });
-      } else {
-        setState(() {
-          currentPage = Home();
-        });
-      }
-    });
-  }
 
-  @override
-  void dispose() {
-    user.cancel();
-    super.dispose();
+    // user = FirebaseAuth.instance.authStateChanges().listen((user) {
+    //   if (user == null) {
+    //     setState(() {
+    //       currentPage = IntroScreen();
+    //     });
+    //   } else if (isAdmin == null) {
+    //     setState(() {
+    //       currentPage = IntroScreen();
+    //     });
+    //   } else if (isAdmin != null) {
+    //     setState(() {
+    //       currentPage = AdminHome();
+    //     });
+    //   } else {
+    //     setState(() {
+    //       currentPage = Home();
+    //     });
+    //   }
+    // });
   }
 
   @override

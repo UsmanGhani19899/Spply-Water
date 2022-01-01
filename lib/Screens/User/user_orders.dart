@@ -84,7 +84,25 @@ class _UserOrdersState extends State<UserOrders> with TickerProviderStateMixin {
                                   ),
                                 );
                               } else {
-                                return Container();
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height *
+                                          0.32),
+                                  child: Column(children: [
+                                    Icon(
+                                      Icons.pending,
+                                      size: 75,
+                                      color: Colors.grey,
+                                    ),
+                                    Text(
+                                      "No Pendings",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w300,
+                                          color: Colors.grey),
+                                    ),
+                                  ]),
+                                );
                               }
                             });
                       } else {
@@ -129,7 +147,25 @@ class _UserOrdersState extends State<UserOrders> with TickerProviderStateMixin {
                                   ),
                                 );
                               } else {
-                                return Container();
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height *
+                                          0.32),
+                                  child: Column(children: [
+                                    Icon(
+                                      Icons.admin_panel_settings,
+                                      size: 75,
+                                      color: Colors.grey,
+                                    ),
+                                    Text(
+                                      "Please wait for admin approval",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w300,
+                                          color: Colors.grey),
+                                    ),
+                                  ]),
+                                );
                               }
                             });
                       } else {

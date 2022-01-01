@@ -94,113 +94,126 @@ class _AdminHomeState extends State<AdminHome> with TickerProviderStateMixin {
                   StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection('users')
+                          .where('accept', isEqualTo: false)
                           .snapshots(),
                       builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                              itemCount: snapshot.data!.docs.length,
-                              itemBuilder: (context, index) {
-                                Map<String, dynamic> dcumet =
-                                    snapshot.data!.docs[index].data()
-                                        as Map<String, dynamic>;
+                        print("snapshot.data ${snapshot.hasData}");
+                        if (!snapshot.hasData) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (snapshot.data!.docs.isEmpty) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height * 0.32),
+                            child: Column(children: [
+                              Icon(
+                                Icons.admin_panel_settings,
+                                size: 75,
+                                color: Colors.grey,
+                              ),
+                              Text(
+                                "No User Registered New",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.grey),
+                              ),
+                            ]),
+                          );
+                        }
+                        return ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              Map<String, dynamic> dcumet =
+                                  snapshot.data!.docs[index].data()
+                                      as Map<String, dynamic>;
 
-                                if (dcumet["accept"] == false) {
-                                  return Container(
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 10),
-                                    decoration:
-                                        BoxDecoration(color: Colors.white),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 15),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                              return Container(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
+                                decoration: BoxDecoration(color: Colors.white),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 15),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "${dcumet["name"]}",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20),
-                                            ),
-                                            Text(
-                                              "${dcumet["phoneNo"]}",
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 16),
-                                            ),
-                                          ],
+                                        Text(
+                                          "${dcumet["name"]}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20),
                                         ),
-                                        Row(
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                db.updateBool(snapshot
-                                                    .data!.docs[index].id);
-                                              },
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.1,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.1,
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: Colors.green),
-                                                    shape: BoxShape.circle,
-                                                    color: Colors.transparent),
-                                                child: Icon(
-                                                  Icons.done,
-                                                  color: Colors.green,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {},
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.1,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.1,
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: Colors.red),
-                                                    shape: BoxShape.circle,
-                                                    color: Colors.transparent),
-                                                child: Icon(
-                                                  Icons.cancel_sharp,
-                                                  color: Colors.red,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        )
+                                        Text(
+                                          "${dcumet["phoneNo"]}",
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 16),
+                                        ),
                                       ],
                                     ),
-                                  );
-                                } else {
-                                  return Container();
-                                }
-                              });
-                        } else {
-                          return Container(
-                              alignment: Alignment.center,
-                              child: CircularProgressIndicator());
-                        }
+                                    Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            db.updateBool(
+                                                snapshot.data!.docs[index].id);
+                                          },
+                                          child: Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.1,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.1,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.green),
+                                                shape: BoxShape.circle,
+                                                color: Colors.transparent),
+                                            child: Icon(
+                                              Icons.done,
+                                              color: Colors.green,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {},
+                                          child: Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.1,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.1,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.red),
+                                                shape: BoxShape.circle,
+                                                color: Colors.transparent),
+                                            child: Icon(
+                                              Icons.cancel_sharp,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              );
+                            });
                       }),
                   StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance

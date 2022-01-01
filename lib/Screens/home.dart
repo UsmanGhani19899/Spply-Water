@@ -45,6 +45,11 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -184,16 +189,21 @@ class _HomeState extends State<Home> {
                       } else {
                         return Padding(
                           padding: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * 0.3),
-                          child: Center(
-                            child: Text(
+                              top: MediaQuery.of(context).size.height * 0.32),
+                          child: Column(children: [
+                            Icon(
+                              Icons.admin_panel_settings,
+                              size: 75,
+                              color: Colors.grey,
+                            ),
+                            Text(
                               "Please wait for admin approval",
                               style: TextStyle(
                                   fontSize: 20,
-                                  fontWeight: FontWeight.w400,
+                                  fontWeight: FontWeight.w300,
                                   color: Colors.grey),
                             ),
-                          ),
+                          ]),
                         );
                       }
                     });
