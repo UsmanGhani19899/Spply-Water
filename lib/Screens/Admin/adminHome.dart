@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:water_supply/Core/auth.dart';
 import 'package:water_supply/Core/database.dart';
+import 'package:water_supply/Globals/global_variable.dart' as globals;
 import 'package:water_supply/Screens/Admin/order.dart';
 
 import '../introScreen.dart';
@@ -37,6 +38,8 @@ class _AdminHomeState extends State<AdminHome> with TickerProviderStateMixin {
               TextButton(
                   onPressed: () {
                     _auth.logOut();
+                    globals.currentUserId = '';
+                    globals.isAdmin = false;
                     Get.offAll(IntroScreen());
                   },
                   child: Text("Logout")),

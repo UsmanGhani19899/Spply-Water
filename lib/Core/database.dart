@@ -1,22 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:water_supply/Model/orderModel.dart';
 import 'package:water_supply/Model/user_model.dart';
-import 'package:water_supply/Screens/User/customer_BottomBar.dart';
-import 'package:water_supply/Screens/home.dart';
+import 'package:water_supply/Screens/User/login.dart';
 
 class Database {
   FirebaseFirestore? firestore;
   final _auth = FirebaseAuth.instance;
   CollectionReference? _mainCollection;
+  UserModel? currentData;
 
   initiliase() {
     firestore = FirebaseFirestore.instance;
-    _mainCollection = firestore!.collection('notes');
+    _mainCollection = firestore!.collection('users');
   }
 
   postDetailsToFirestore({
@@ -39,18 +39,14 @@ class Database {
     userModel.address = adressController!.text;
     userModel.phoneNo = phoneNoController!.text;
     userModel.accept = false;
-    userModel.isAdmin = false;
+    userModel.role = 'User';
 
     await firebaseFirestore
         .collection("users")
         .doc(user.uid)
         .set(userModel.toMap());
     Fluttertoast.showToast(msg: "Account created successfully :) ");
-
-    // Navigator.pushAndRemoveUntil(
-    //     (context!),
-    //     MaterialPageRoute(builder: (context) => UserBottomBar()),
-    //     (route) => false);
+    Get.to(Login());
   }
 
   Future updateBool(String id) async {
@@ -66,6 +62,13 @@ class Database {
   // }
 
   Stream<QuerySnapshot> readItems() {
+    CollectionReference notesItemCollection =
+        _mainCollection!.doc().collection('users');
+
+    return notesItemCollection.snapshots();
+  }
+
+  Stream<QuerySnapshot> getUserData(String uid) {
     return FirebaseFirestore.instance.collection("users").snapshots();
   }
 

@@ -26,13 +26,9 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     Timer(Duration(seconds: 3), () {
-      if (user != null &&
-          user!.uid == 'sFB3bDKEWafAMPluXx9fnkMpIAK2' &&
-          globals.isAdmin == true) {
+      if (user != null && user!.uid == 'zbU2x7664icmj7xnSsllAp9aA1y1') {
         Get.off(WaterSupplyBottomBar());
-      } else if (user != null &&
-          user!.uid != 'sFB3bDKEWafAMPluXx9fnkMpIAK2' &&
-          globals.isAdmin == false) {
+      } else if (user != null && user!.uid != 'zbU2x7664icmj7xnSsllAp9aA1y1') {
         Get.offAll(UserBottomBar());
       } else {
         Get.offAll(IntroScreen());

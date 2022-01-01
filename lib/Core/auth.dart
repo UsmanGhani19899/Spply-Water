@@ -1,13 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:water_supply/Core/database.dart';
-import 'package:water_supply/Screens/Admin/adminHome.dart';
 import 'package:water_supply/Screens/Admin/admin_bottomBar.dart';
 import 'package:water_supply/Screens/User/customer_BottomBar.dart';
-import 'package:water_supply/Screens/User/login.dart';
-import 'package:water_supply/Screens/home.dart';
 import 'package:water_supply/Globals/global_variable.dart' as globals;
 
 class Auth {
@@ -30,15 +28,13 @@ class Auth {
             .createUserWithEmailAndPassword(email: email!, password: password!)
             .then((value) => {
                   database.postDetailsToFirestore(
-                    nameController: namecontroller,
-                    phoneNoController: phoneNocontroller,
-                    adressController: adressController,
-                    context: context,
-                  )
+                      nameController: namecontroller,
+                      phoneNoController: phoneNocontroller,
+                      adressController: adressController,
+                      context: context)
                 })
             .catchError((e) {
           Fluttertoast.showToast(msg: e!.message);
-          Get.offAll(Home());
         });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {
@@ -78,31 +74,40 @@ class Auth {
       BuildContext? context}) async {
     if (formkey!.currentState!.validate()) {
       try {
-        print("globals.isAdmin");
-
-        if (globals.isAdmin == false) {
-          await _auth
-              .signInWithEmailAndPassword(email: email!, password: password!)
-              .then((uid) => {
-                    globals.currentUserId = _auth.currentUser!.uid,
-                    database.readItems(),
-                    Fluttertoast.showToast(msg: "Login Successful"),
-                    Get.offAll(UserBottomBar())
-                  });
-        } else {
-          print("globals.isAdmin ELSE");
-          if (email! == 'owaistaha@gmail.com' && password == "12345678") {
-            await _auth
-                .signInWithEmailAndPassword(
-                    email: "owaistaha@gmail.com", password: "12345678")
-                .then((uid) => {
-                      Fluttertoast.showToast(msg: "Login Successful"),
-                      Get.offAll(WaterSupplyBottomBar())
-                    });
-          } else {
-            Fluttertoast.showToast(msg: "Login Failed");
-          }
-        }
+        FirebaseFirestore.instance
+            .collection('users')
+            .where('email', isEqualTo: email)
+            .get()
+            .then((documents) {
+          documents.docs.forEach((element) {
+            if (globals.isAdmin == true && element.data()['role'] == 'Admin') {
+              Fluttertoast.showToast(msg: "Login Successful As Admin");
+              _auth
+                  .signInWithEmailAndPassword(
+                      email: email!, password: password!)
+                  .then((value) => {
+                        globals.currentUserId = value.user!.uid,
+                        Get.offAll(WaterSupplyBottomBar()),
+                      });
+            } else if (globals.isAdmin == true &&
+                element.data()['role'] == 'User') {
+              Fluttertoast.showToast(msg: "No Authorize As Admin");
+            } else if (globals.isAdmin == false &&
+                element.data()['role'] == 'User') {
+              Fluttertoast.showToast(msg: "Login Successful As Customer");
+              _auth
+                  .signInWithEmailAndPassword(
+                      email: email!, password: password!)
+                  .then((value) => {
+                        globals.currentUserId = value.user!.uid,
+                        Get.offAll(UserBottomBar()),
+                      });
+            } else if (globals.isAdmin == false &&
+                element.data()['role'] == 'Admin') {
+              Fluttertoast.showToast(msg: "Invalid Credentials");
+            }
+          });
+        });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {
           case "invalid-email":

@@ -76,9 +76,14 @@ import 'package:water_supply/Globals/global_variable.dart' as globals;
 import 'package:water_supply/Screens/User/login.dart';
 import 'package:water_supply/Screens/User/signUp.dart';
 
-class IntroScreen extends StatelessWidget {
+class IntroScreen extends StatefulWidget {
   const IntroScreen({Key? key}) : super(key: key);
 
+  @override
+  State<IntroScreen> createState() => _IntroScreenState();
+}
+
+class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -129,7 +134,9 @@ class IntroScreen extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.06,
                       child: ElevatedButton(
                         onPressed: () {
-                          globals.isAdmin = false;
+                          setState(() {
+                            globals.isAdmin = false;
+                          });
                           Get.to(Login());
                         },
                         child: Text(
@@ -163,7 +170,9 @@ class IntroScreen extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.06,
                       child: ElevatedButton(
                         onPressed: () {
-                          globals.isAdmin = true;
+                          setState(() {
+                            globals.isAdmin = true;
+                          });
                           Get.to(Login());
                         },
                         child: Text(
