@@ -128,6 +128,8 @@ class _AdminHomeState extends State<AdminHome> with TickerProviderStateMixin {
                                       as Map<String, dynamic>;
 
                               return Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.12,
                                 margin: EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 10),
                                 decoration: BoxDecoration(color: Colors.white),
@@ -145,10 +147,17 @@ class _AdminHomeState extends State<AdminHome> with TickerProviderStateMixin {
                                           "${dcumet["name"]}",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 20),
+                                              fontSize: 16),
                                         ),
                                         Text(
                                           "${dcumet["phoneNo"]}",
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 13),
+                                        ),
+                                        Text(
+                                          "${dcumet["address"]}",
                                           style: TextStyle(
                                               color: Colors.grey,
                                               fontWeight: FontWeight.w400,
@@ -230,6 +239,8 @@ class _AdminHomeState extends State<AdminHome> with TickerProviderStateMixin {
 
                                 if (dcumet["accept"] == true) {
                                   return Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.12,
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 10, vertical: 10),
                                     decoration:

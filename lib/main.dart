@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:water_supply/Globals/global_variable.dart';
 import 'package:water_supply/Screens/Admin/adminHome.dart';
+import 'package:water_supply/Screens/Admin/admin_bottomBar.dart';
 import 'package:water_supply/Screens/User/login.dart';
 import 'package:water_supply/Screens/User/signUp.dart';
 import 'package:water_supply/Screens/home.dart';
@@ -57,7 +58,7 @@ class _WaterSupplyState extends State<WaterSupply> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      home: currentPage,
+      home: WaterSupplyBottomBar(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         backgroundColor: HexColor("F2F2F2F2"),

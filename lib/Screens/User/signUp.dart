@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:water_supply/Core/auth.dart';
 import 'package:water_supply/Core/database.dart';
 import 'package:water_supply/Model/user_model.dart';
@@ -209,15 +211,21 @@ class _SignUpState extends State<SignUp> {
                 child: ClipPath(
                   clipper: WaveClipper(),
                   child: Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage("assets/images/c.jpg"),
+                              fit: BoxFit.cover)),
                       padding: EdgeInsets.only(left: 20, top: 20, right: 20),
-                      color: Colors.blue.shade900.withOpacity(0.9),
+                      // color: Colors.blue.shade900.withOpacity(0.9),
                       height: MediaQuery.of(context).size.height * 0.4,
                       alignment: Alignment.topLeft,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Get.back();
+                              },
                               child: Icon(
                                 Icons.arrow_back_ios,
                                 color: Colors.white,
@@ -228,9 +236,10 @@ class _SignUpState extends State<SignUp> {
                           Text(
                             "Create\nAn Account",
                             style: TextStyle(
-                              fontSize: 34,
-                              color: Colors.white,
-                            ),
+                                fontSize: 40,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.2),
                           ),
                         ],
                       )),

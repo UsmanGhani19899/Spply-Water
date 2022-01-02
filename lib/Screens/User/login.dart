@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -133,16 +134,22 @@ class _LoginState extends State<Login> {
             child: ClipPath(
               clipper: WaveClipper(),
               child: Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage("assets/images/c.jpg"),
+                          fit: BoxFit.cover)),
                   width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.only(left: 20, right: 20, top: 25),
-                  color: Colors.blue.shade900.withOpacity(0.9),
+                  // color: Colors.blue.shade900.withOpacity(0.9),
                   height: MediaQuery.of(context).size.height * 0.45,
                   alignment: Alignment.topLeft,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Get.back();
+                          },
                           child: Icon(
                             Icons.arrow_back_ios,
                             color: Colors.white,
@@ -153,7 +160,9 @@ class _LoginState extends State<Login> {
                       Text(
                         globals.isAdmin! ? 'Welcome\nAdmin' : 'Welcome\nUser',
                         style: TextStyle(
-                          fontSize: 34,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.2,
                           color: Colors.white,
                         ),
                       ),

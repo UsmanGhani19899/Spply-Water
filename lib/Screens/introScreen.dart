@@ -69,6 +69,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -83,17 +84,24 @@ class IntroScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // backgroundColor: Colors.blue.shade700,
+        // backgroundColor: Colors.blue.shade900.withOpacity(0.9),
         body: Stack(
           children: [
             Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("assets/images/b.jpg"),
-                      fit: BoxFit.cover)),
-              foregroundDecoration:
-                  BoxDecoration(color: Colors.black.withOpacity(0.23)),
-            ),
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/c.jpg"),
+                        fit: BoxFit.cover)),
+                foregroundDecoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.center,
+                        colors: [
+                      Colors.black,
+                      Colors.black,
+                      Colors.black.withOpacity(0.8),
+                      Colors.black.withOpacity(0)
+                    ]))),
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15, bottom: 20),
               child: Column(
@@ -134,7 +142,8 @@ class IntroScreen extends StatelessWidget {
                         },
                         child: Text(
                           "Login Customer",
-                          style: TextStyle(color: Colors.blue),
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
                         ),
                         style: ElevatedButton.styleFrom(primary: Colors.white),
                       )),
@@ -150,7 +159,8 @@ class IntroScreen extends StatelessWidget {
                         },
                         child: Text(
                           "SignUp Customer",
-                          style: TextStyle(color: Colors.blue),
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
                         ),
                         style: ElevatedButton.styleFrom(
                             primary: Colors.white, elevation: 0),
@@ -168,7 +178,8 @@ class IntroScreen extends StatelessWidget {
                         },
                         child: Text(
                           "Admin",
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                         style: ElevatedButton.styleFrom(
                             primary: Colors.transparent,
