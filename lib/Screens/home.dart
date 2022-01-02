@@ -31,6 +31,7 @@ class _HomeState extends State<Home> {
               TextButton(
                   onPressed: () {
                     _auth.logOut();
+                    globals.currentUserId = '';
                     Get.offAll(IntroScreen());
                   },
                   child: Text("Logout")),

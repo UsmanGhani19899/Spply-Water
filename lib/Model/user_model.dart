@@ -5,7 +5,7 @@ class UserModel {
   String? address;
   String? phoneNo;
   bool? accept = false;
-  bool? isAdmin;
+  String? role;
   UserModel(
       {this.uid,
       this.email,
@@ -13,7 +13,7 @@ class UserModel {
       this.address,
       this.phoneNo,
       this.accept,
-      this.isAdmin});
+      this.role});
 
   // receiving data from server
   factory UserModel.fromMap(map) {
@@ -24,7 +24,7 @@ class UserModel {
       address: map['address'],
       phoneNo: map['phoneNo'],
       accept: map["accept"],
-      isAdmin: map["isAdmin"],
+      role: map["role"],
     );
   }
 
@@ -37,7 +37,7 @@ class UserModel {
       'address': address,
       'phoneNo': phoneNo,
       'accept': accept,
-      'isAdmin': isAdmin,
+      'role': role,
     };
   }
 }

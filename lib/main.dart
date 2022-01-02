@@ -12,6 +12,7 @@ import 'package:water_supply/Screens/User/login.dart';
 import 'package:water_supply/Screens/User/signUp.dart';
 import 'package:water_supply/Screens/home.dart';
 import 'package:water_supply/Screens/introScreen.dart';
+import 'package:water_supply/Widgets/authhandle.dart';
 
 import 'Screens/splash.dart';
 
@@ -29,7 +30,7 @@ class WaterSupply extends StatefulWidget {
 }
 
 class _WaterSupplyState extends State<WaterSupply> {
-  Widget currentPage = Splash();
+  Widget currentPage = IntroScreen();
 
   void initState() {
     super.initState();
@@ -58,7 +59,11 @@ class _WaterSupplyState extends State<WaterSupply> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+<<<<<<< HEAD
       home: WaterSupplyBottomBar(),
+=======
+      home: Splash(),
+>>>>>>> af1d00da40f5446a92893ab5d001748b67d1ca8d
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         backgroundColor: HexColor("F2F2F2F2"),
