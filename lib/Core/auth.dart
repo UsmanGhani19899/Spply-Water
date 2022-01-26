@@ -3,10 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:water_supply/Core/database.dart';
 import 'package:water_supply/Screens/Admin/admin_bottomBar.dart';
 import 'package:water_supply/Screens/User/customer_BottomBar.dart';
 import 'package:water_supply/Globals/global_variable.dart' as globals;
+import 'package:water_supply/Screens/User/login.dart';
 
 class Auth {
   final _auth = FirebaseAuth.instance;
@@ -14,7 +16,7 @@ class Auth {
   // string for displaying the error Message
   String? errorMessage;
 
-  void signUp(
+  Future signUp(
       {String? email,
       String? password,
       TextEditingController? namecontroller,
@@ -31,7 +33,10 @@ class Auth {
                       nameController: namecontroller,
                       phoneNoController: phoneNocontroller,
                       adressController: adressController,
-                      context: context)
+                      context: context),
+                  globals.currentUserId = _auth.currentUser!.uid,
+                  globals.isAdmin = false,
+                  Get.offAll(globals.isAdmin == false ? Login() : null),
                 })
             .catchError((e) {
           Fluttertoast.showToast(msg: e!.message);
@@ -66,7 +71,7 @@ class Auth {
   }
 
   // login function
-  void signIn(
+  Future<void> signIn(
       {String? email,
       String? password,
       TextEditingController? namecontroller,
@@ -85,10 +90,16 @@ class Auth {
               _auth
                   .signInWithEmailAndPassword(
                       email: email!, password: password!)
-                  .then((value) => {
-                        globals.currentUserId = value.user!.uid,
-                        Get.offAll(WaterSupplyBottomBar()),
-                      });
+                  .then((value) async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setBool('isLoggedIn', true);
+                prefs.setString('userId', value.user!.uid);
+                globals.prefId = value.user!.uid;
+                Get.offAll(WaterSupplyBottomBar(
+                  email: email,
+                  name: nameController.text,
+                ));
+              });
             } else if (globals.isAdmin == true &&
                 element.data()['role'] == 'User') {
               Fluttertoast.showToast(msg: "No Authorize As Admin");
@@ -98,10 +109,13 @@ class Auth {
               _auth
                   .signInWithEmailAndPassword(
                       email: email!, password: password!)
-                  .then((value) => {
-                        globals.currentUserId = value.user!.uid,
-                        Get.offAll(UserBottomBar()),
-                      });
+                  .then((value) async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setBool('isLoggedIn', true);
+                prefs.setString('userId', value.user!.uid);
+                globals.prefId = value.user!.uid;
+                Get.offAll(UserBottomBar());
+              });
             } else if (globals.isAdmin == false &&
                 element.data()['role'] == 'Admin') {
               Fluttertoast.showToast(msg: "Invalid Credentials");

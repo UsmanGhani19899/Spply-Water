@@ -4,10 +4,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:water_supply/Core/auth.dart';
 import 'package:water_supply/Core/database.dart';
 import 'package:water_supply/Globals/global_variable.dart' as globals;
+import 'package:water_supply/Screens/Admin/inbox_admin.dart';
 import 'package:water_supply/Screens/Admin/order.dart';
+import 'package:water_supply/Screens/Admin/userInfo.dart';
 
 import '../introScreen.dart';
 
@@ -28,351 +31,419 @@ class _AdminHomeState extends State<AdminHome> with TickerProviderStateMixin {
     _tabController = TabController(length: 2, vsync: this);
   }
 
-  showPopUp() {
-    return showDialog(
-        context: (context),
-        builder: (context) {
-          return AlertDialog(
-            title: Text("Are you sure you want to logout."),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    _auth.logOut();
-                    globals.currentUserId = '';
-                    globals.isAdmin = false;
-                    Get.offAll(IntroScreen());
-                  },
-                  child: Text("Logout")),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text("Cancel")),
-            ],
-          );
-        });
+  userDetail(String userInformation, final Icon) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      padding: EdgeInsets.symmetric(vertical: 5),
+      // decoration: BoxDecoration(
+      //     border: Border(bottom: BorderSide(color: Colors.black))),
+      child: Row(children: [
+        Icon,
+        SizedBox(
+          width: 5,
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(userInformation),
+          ),
+        )
+      ]),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
-          appBar: AppBar(
-            backgroundColor: Colors.blue.shade900.withOpacity(0.9),
-            title: Text(
-              "Water Supply",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      showPopUp();
-                    });
-                  },
-                  icon: Icon(Icons.logout))
-            ],
-            bottom: TabBar(
-                indicatorColor: Colors.white,
-                labelColor: Colors.white,
-                controller: _tabController,
-                tabs: [
-                  Tab(
-                    child: Text("Requests"),
-                  ),
-                  Tab(
-                    child: Text("Approved"),
-                  ),
-                ]),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
+        appBar: AppBar(
+          backgroundColor: Colors.blue.shade900.withOpacity(0.9),
+          title: Text(
+            "GraceFul",
+            style: GoogleFonts.roboto(
+                fontSize: 25, fontWeight: FontWeight.bold, letterSpacing: 0.4),
           ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: TabBarView(controller: _tabController, children: [
-                  StreamBuilder<QuerySnapshot>(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Get.off(AdminInbox());
+                },
+                icon: Icon(Icons.inbox_outlined))
+          ],
+          bottom: TabBar(
+              indicatorColor: Colors.white,
+              labelColor: Colors.white,
+              controller: _tabController,
+              tabs: [
+                Tab(
+                  child: StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection('users')
                           .where('accept', isEqualTo: false)
                           .snapshots(),
                       builder: (context, snapshot) {
-                        print("snapshot.data ${snapshot.hasData}");
-                        if (!snapshot.hasData) {
-                          return Center(child: CircularProgressIndicator());
-                        } else if (snapshot.data!.docs.isEmpty) {
-                          return Padding(
-                            padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.32),
-                            child: Column(children: [
-                              Icon(
-                                Icons.admin_panel_settings,
-                                size: 75,
-                                color: Colors.grey,
-                              ),
-                              Text(
-                                "No User Registered New",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.grey),
-                              ),
-                            ]),
-                          );
+                        if (snapshot.hasData) {
+                          return Text(
+                              "Requests (${snapshot.data!.docs.length})");
+                        } else {
+                          return Container();
                         }
-                        return ListView.builder(
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, index) {
-                              Map<String, dynamic> dcumet =
-                                  snapshot.data!.docs[index].data()
-                                      as Map<String, dynamic>;
+                      }),
+                ),
+                Tab(
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('users')
+                          .where('accept', isEqualTo: true)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(
+                              "Approved (${snapshot.data!.docs.length})");
+                        } else {
+                          return Container();
+                        }
+                      }),
+                )
+              ]),
+        ),
+        body: TabBarView(controller: _tabController, children: [
+          StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .where('accept', isEqualTo: false)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                print("snapshot.data ${snapshot.hasData}");
+                if (!snapshot.hasData) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.data!.docs.isEmpty) {
+                  return Padding(
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.32),
+                    child: Column(children: [
+                      Icon(
+                        Icons.pending,
+                        size: 75,
+                        color: Colors.grey,
+                      ),
+                      Text(
+                        "No Pending Requests",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.grey),
+                      ),
+                    ]),
+                  );
+                }
+                return Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            Map<String, dynamic> dcumet =
+                                snapshot.data!.docs[index].data()
+                                    as Map<String, dynamic>;
 
-                              return Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.12,
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 10),
-                                decoration: BoxDecoration(color: Colors.white),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 15),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
+                            return Container(
+                              // height:
+                              //     MediaQuery.of(context).size.height * 0.12,
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 10),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 15),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                    child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           "${dcumet["name"]}",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                          style: GoogleFonts.roboto(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.0060,
                                         ),
                                         Text(
                                           "${dcumet["phoneNo"]}",
                                           style: TextStyle(
-                                              color: Colors.grey,
+                                              color: Colors.black,
                                               fontWeight: FontWeight.w400,
                                               fontSize: 13),
+                                        ),
+                                        SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.0060,
                                         ),
                                         Text(
                                           "${dcumet["address"]}",
                                           style: TextStyle(
-                                              color: Colors.grey,
+                                              color: Colors.black,
                                               fontWeight: FontWeight.w400,
-                                              fontSize: 16),
+                                              fontSize: 13),
                                         ),
                                       ],
                                     ),
-                                    Row(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            db.updateBool(
-                                                snapshot.data!.docs[index].id);
-                                          },
-                                          child: Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.1,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.1,
+                                  ),
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          db.updateBool(
+                                              snapshot.data!.docs[index].id);
+                                        },
+                                        child: Container(
+                                            // height: MediaQuery.of(context)
+                                            //         .size
+                                            //         .height *
+                                            //     0.1,
+                                            // width: MediaQuery.of(context)
+                                            //         .size
+                                            //         .width *
+                                            //     0.15,
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 15, vertical: 12),
                                             decoration: BoxDecoration(
+                                                // shape: BoxShape.circle,
                                                 border: Border.all(
                                                     color: Colors.green),
-                                                shape: BoxShape.circle,
                                                 color: Colors.transparent),
-                                            child: Icon(
-                                              Icons.done,
-                                              color: Colors.green,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {},
-                                          child: Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.1,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.1,
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: Colors.red),
-                                                shape: BoxShape.circle,
-                                                color: Colors.transparent),
-                                            child: Icon(
-                                              Icons.cancel_sharp,
-                                              color: Colors.red,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              );
-                            });
-                      }),
-                  StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection('users')
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                              itemCount: snapshot.data!.docs.length,
-                              itemBuilder: (context, index) {
-                                Map<String, dynamic> dcumet =
-                                    snapshot.data!.docs[index].data()
-                                        as Map<String, dynamic>;
+                                            child: Text(
+                                              "Accept",
+                                              style: TextStyle(
+                                                  color: Colors.green),
+                                            )),
+                                      ),
+                                      // SizedBox(
+                                      //   width: 20,
+                                      // ),
+                                      // GestureDetector(
+                                      //   onTap: () {},
+                                      //   child: Container(
+                                      //     height: MediaQuery.of(context)
+                                      //             .size
+                                      //             .height *
+                                      //         0.1,
+                                      //     width: MediaQuery.of(context)
+                                      //             .size
+                                      //             .width *
+                                      //         0.1,
+                                      //     decoration: BoxDecoration(
+                                      //         border: Border.all(
+                                      //             color: Colors.red),
+                                      //         shape: BoxShape.circle,
+                                      //         color: Colors.transparent),
+                                      //     child: Icon(
+                                      //       Icons.cancel_sharp,
+                                      //       color: Colors.red,
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            );
+                          }),
+                    ),
+                  ],
+                );
+              }),
+          StreamBuilder<QuerySnapshot>(
+              stream:
+                  FirebaseFirestore.instance.collection('users').snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        Map<String, dynamic> dcumet = snapshot.data!.docs[index]
+                            .data() as Map<String, dynamic>;
 
-                                if (dcumet["accept"] == true) {
-                                  return Container(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.12,
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 10),
-                                    decoration:
-                                        BoxDecoration(color: Colors.white),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 15),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "${dcumet["name"]}",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20),
-                                            ),
-                                            Text(
-                                              "${dcumet["phoneNo"]}",
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 16),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            // GestureDetector(
-                                            //   onTap: () {
-                                            //     // final CollectionReference
-                                            //     //     collectionReference =
-                                            //     //     FirebaseFirestore.instance
-                                            //     //         .collection("users");
-                                            //     // collectionReference
-                                            //     //     .doc()
-                                            //     //     .update( {
-                                            //     //   "accept": true
-                                            //     // }).whenComplete(() async {
-                                            //     //   print("Completed");
-                                            //     // }).catchError(
-                                            //     //         (e) => print(e));
-                                            //   },
-                                            //   child: Container(
-                                            //     height: MediaQuery.of(context)
-                                            //             .size
-                                            //             .height *
-                                            //         0.1,
-                                            //     width: MediaQuery.of(context)
-                                            //             .size
-                                            //             .width *
-                                            //         0.1,
-                                            //     decoration: BoxDecoration(
-                                            //         border: Border.all(
-                                            //             color: Colors.green),
-                                            //         shape: BoxShape.circle,
-                                            //         color:
-                                            //             Colors.transparent),
-                                            //     child: Icon(
-                                            //       Icons.done,
-                                            //       color: Colors.green,
-                                            //     ),
-                                            //   ),
-                                            // ),
-                                            IconButton(
-                                                onPressed: () {},
-                                                icon: Icon(
-                                                  Icons.message,
-                                                  color: Colors.black,
-                                                )),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            // GestureDetector(
-                                            //   child: Container(
-                                            //     height: MediaQuery.of(context)
-                                            //             .size
-                                            //             .height *
-                                            //         0.1,
-                                            //     width: MediaQuery.of(context)
-                                            //             .size
-                                            //             .width *
-                                            //         0.1,
-                                            //     decoration: BoxDecoration(
-                                            //         border: Border.all(
-                                            //             color: Colors.red),
-                                            //         shape: BoxShape.circle,
-                                            //         color:
-                                            //             Colors.transparent),
-                                            //     child: Icon(
-                                            //       Icons.cancel_sharp,
-                                            //       color: Colors.red,
-                                            //     ),
-                                            //   ),
-                                            // ),
-                                            IconButton(
-                                                onPressed: () {
-                                                  Get.to(OrderScreen(
-                                                    userID: dcumet["uid"],
-                                                    name: dcumet["name"],
-                                                  ));
-                                                },
-                                                icon: Icon(
-                                                  Icons.info,
-                                                  color: Colors.black,
-                                                ))
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                } else {
-                                  return Container();
-                                }
-                              });
-                        } else {
+                        if (dcumet["accept"] == true) {
                           return Container(
-                              alignment: Alignment.center,
-                              child: CircularProgressIndicator());
+                            // height: MediaQuery.of(context).size.height *
+                            //     0.12,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10)),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${dcumet["name"]}",
+                                        style: GoogleFonts.roboto(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        "${dcumet["phoneNo"]}",
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 16),
+                                      ),
+                                      Text(
+                                        "${dcumet["address"]}",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.message,
+                                          color: Colors.black,
+                                        )),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    IconButton(
+                                        onPressed: () {
+                                          //   Get.to(UserInfoAdmin(
+                                          //     name: dcumet["name"],
+                                          //     email: dcumet["email"],
+                                          //     phoneNo: dcumet["phoneNo"],
+                                          //     address: dcumet["address"],
+                                          //   ));
+                                          setState(() {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                      title: CircleAvatar(
+                                                        radius: 30,
+                                                        child:
+                                                            Icon(Icons.person),
+                                                      ),
+                                                      actions: [
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child:
+                                                                Text("Close"))
+                                                        // IconButton(
+                                                        //     onPressed: () {},
+                                                        //     icon: Icon(
+                                                        //         Icons.cancel))
+                                                      ],
+                                                      contentPadding: EdgeInsets
+                                                          .symmetric(),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10)),
+                                                      content: Container(
+                                                        margin: EdgeInsets.only(
+                                                          top: 20,
+                                                        ),
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal: 10),
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.34,
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)),
+                                                        child:
+                                                            SingleChildScrollView(
+                                                          child: Column(
+                                                            children: [
+                                                              userDetail(
+                                                                  "${dcumet["name"]}",
+                                                                  Icon(Icons
+                                                                      .person)),
+                                                              userDetail(
+                                                                "${dcumet["email"]}",
+                                                                Icon(Icons
+                                                                    .email),
+                                                              ),
+                                                              userDetail(
+                                                                "${dcumet["address"]}",
+                                                                Icon(Icons.map),
+                                                              ),
+                                                              userDetail(
+                                                                "${dcumet["phoneNo"]}",
+                                                                Icon(Icons
+                                                                    .phone_android),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ));
+                                                });
+                                          });
+                                        },
+                                        icon: Icon(
+                                          Icons.info,
+                                          color: Colors.black,
+                                        ))
+                                  ],
+                                )
+                              ],
+                            ),
+                          );
+                        } else {
+                          return Container();
                         }
-                      }),
-                ]),
-              ),
-            ],
-          ),
-        ),
+                      });
+                } else {
+                  return Container(
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator());
+                }
+              }),
+        ]),
       ),
     );
   }

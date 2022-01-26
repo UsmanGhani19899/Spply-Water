@@ -25,10 +25,14 @@ class _SplashState extends State<Splash> {
   User? user = FirebaseAuth.instance.currentUser;
   @override
   void initState() {
-    Timer(Duration(seconds: 3), () {
-      if (user != null && user!.uid == 'zbU2x7664icmj7xnSsllAp9aA1y1') {
-        Get.off(WaterSupplyBottomBar());
-      } else if (user != null && user!.uid != 'zbU2x7664icmj7xnSsllAp9aA1y1') {
+    Timer(Duration(seconds: 4), () {
+      if (globals.isLoggedCheck == true &&
+          user != null &&
+          user!.uid == 'omLoExbq14RvemgHueQPuU7ifQF3') {
+        Get.offAll(WaterSupplyBottomBar());
+      } else if (globals.isLoggedCheck == true &&
+          user != null &&
+          user!.uid != 'omLoExbq14RvemgHueQPuU7ifQF3') {
         Get.offAll(UserBottomBar());
       } else {
         Get.offAll(IntroScreen());
@@ -39,14 +43,13 @@ class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
         backgroundColor: Colors.white,
         body: Center(
-          child: Lottie.asset("assets/images/waterbottle.json",
-              repeat: false, frameRate: FrameRate(30)),
-        ),
-      ),
-    );
+            child: Lottie.asset(
+          "assets/images/ww.json",
+          repeat: false,
+          frameRate: FrameRate(60),
+        )));
   }
 }

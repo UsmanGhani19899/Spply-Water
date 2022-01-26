@@ -1,15 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:water_supply/Core/auth.dart';
-import 'package:water_supply/Core/database.dart';
-import 'package:water_supply/Model/user_model.dart';
-import 'package:water_supply/Screens/home.dart';
-import 'package:water_supply/Widgets/app_text_field.dart';
+import 'package:water_supply/Globals/global_variable.dart' as globals;
 
 import 'login.dart';
 
@@ -178,8 +173,11 @@ class _SignUpState extends State<SignUp> {
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
-          onPressed: () {
-            auth.signUp(
+          onPressed: () async {
+            setState(() {
+              globals.isloading = true;
+            });
+            await auth.signUp(
               email: emailEditingController.text,
               formkey: _formKey,
               context: context,
@@ -188,6 +186,9 @@ class _SignUpState extends State<SignUp> {
               phoneNocontroller: phoneNoController,
               password: passwordEditingController.text,
             );
+            setState(() {
+              globals.isloading = false;
+            });
           },
           child: Text(
             "SignUp",
@@ -197,89 +198,88 @@ class _SignUpState extends State<SignUp> {
           )),
     );
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        // appBar: AppBar(
-        //   backgroundColor: Colors.transparent,
-        //   elevation: 0,
-        // ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                child: ClipPath(
-                  clipper: WaveClipper(),
-                  child: Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage("assets/images/c.jpg"),
-                              fit: BoxFit.cover)),
-                      padding: EdgeInsets.only(left: 20, top: 20, right: 20),
-                      // color: Colors.blue.shade900.withOpacity(0.9),
-                      height: MediaQuery.of(context).size.height * 0.4,
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                              onTap: () {
-                                Get.back();
-                              },
+    return Scaffold(
+      backgroundColor: Colors.white,
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0,
+      // ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              child: ClipPath(
+                clipper: WaveClipper(),
+                child: Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage("assets/images/c.jpg"),
+                            fit: BoxFit.cover)),
+                    padding: EdgeInsets.only(left: 20, top: 45, right: 20),
+                    // color: Colors.blue.shade900.withOpacity(0.9),
+                    height: MediaQuery.of(context).size.height * 0.43,
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                            onTap: () {
+                              Get.back();
+                            },
+                            child: CircleAvatar(
+                              radius: 23,
+                              backgroundColor: Colors.white,
                               child: Icon(
                                 Icons.arrow_back_ios,
-                                color: Colors.white,
-                              )),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.1,
-                          ),
-                          Text(
-                            "Create\nAn Account",
-                            style: TextStyle(
-                                fontSize: 40,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.2),
-                          ),
-                        ],
-                      )),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        nameField,
+                                color: Colors.black,
+                                size: 21,
+                              ),
+                            )),
                         SizedBox(
-                          height: 15,
+                          height: MediaQuery.of(context).size.height * 0.06,
                         ),
-                        emailField,
-                        SizedBox(
-                          height: 15,
-                        ),
-                        addressField,
-                        SizedBox(
-                          height: 15,
-                        ),
-                        passwordField,
-                        SizedBox(
-                          height: 15,
-                        ),
-                        phoneNoField,
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05,
-                        ),
-                        signUpButton,
-                        SizedBox(
-                          height: 15,
-                        ),
+                        Text("Create\nAn Account",
+                            style: Theme.of(context).textTheme.headline1),
                       ],
                     )),
-              )
-            ],
-          ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      nameField,
+                      SizedBox(
+                        height: 15,
+                      ),
+                      emailField,
+                      SizedBox(
+                        height: 15,
+                      ),
+                      addressField,
+                      SizedBox(
+                        height: 15,
+                      ),
+                      passwordField,
+                      SizedBox(
+                        height: 15,
+                      ),
+                      phoneNoField,
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                      ),
+                      globals.isloading == true
+                          ? CircularProgressIndicator()
+                          : signUpButton,
+                      SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  )),
+            )
+          ],
         ),
       ),
     );

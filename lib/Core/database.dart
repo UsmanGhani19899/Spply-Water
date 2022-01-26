@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:water_supply/Model/orderModel.dart';
 import 'package:water_supply/Model/user_model.dart';
 import 'package:water_supply/Screens/User/login.dart';
+import 'package:water_supply/Globals/global_variable.dart' as globals;
 
 class Database {
   FirebaseFirestore? firestore;
@@ -17,6 +18,14 @@ class Database {
   initiliase() {
     firestore = FirebaseFirestore.instance;
     _mainCollection = firestore!.collection('users');
+  }
+
+  Stream<DocumentSnapshot> getData() async* {
+    User? user = await _auth.currentUser;
+    yield* FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .snapshots();
   }
 
   postDetailsToFirestore({
@@ -46,13 +55,22 @@ class Database {
         .doc(user.uid)
         .set(userModel.toMap());
     Fluttertoast.showToast(msg: "Account created successfully :) ");
-    Get.to(Login());
   }
 
   Future updateBool(String id) async {
     CollectionReference collectionReference =
         FirebaseFirestore.instance.collection("users");
     collectionReference.doc(id).update({"accept": true}).whenComplete(() async {
+      print("hogia");
+    }).catchError((e) => print(e));
+  }
+
+  Future updateStatus(String id) async {
+    CollectionReference collectionReference =
+        FirebaseFirestore.instance.collection("orders");
+    collectionReference
+        .doc(id)
+        .update({"status": "Completed"}).whenComplete(() async {
       print("hogia");
     }).catchError((e) => print(e));
   }
@@ -85,7 +103,11 @@ class Database {
   // }
 
   Future createUserOrder(
-      {String? quantity, String? orderId, String? status}) async {
+      {String? quantity,
+      String? orderId,
+      String? status,
+      String? name,
+      String? address}) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
 
@@ -97,6 +119,8 @@ class Database {
     orderModel.quantity = quantity;
     orderModel.orderId = orderId;
     orderModel.status = status;
+    orderModel.name = name;
+    orderModel.address = address;
     orderModel.userId = user!.uid;
     orderModel.dateOfOrder = formattedDate;
 

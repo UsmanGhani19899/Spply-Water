@@ -24,8 +24,8 @@ Auth auth = Auth();
 User? user;
 
 class _LoginState extends State<Login> {
-  bool isloading = false;
   bool showPass = true;
+  bool loading = false;
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -108,14 +108,20 @@ class _LoginState extends State<Login> {
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
-          onPressed: () {
+          onPressed: () async {
             if (_formKey.currentState!.validate()) {
-              auth.signIn(
+              setState(() {
+                globals.isloading = true;
+              });
+              await auth.signIn(
                   email: emailEditingController.text,
                   password: passwordEditingController.text,
                   formkey: _formKey,
                   context: context);
-            }
+              setState(() {
+                globals.isloading = false;
+              });
+            } else {}
           },
           child: Text(
             "SignIn",
@@ -125,9 +131,8 @@ class _LoginState extends State<Login> {
           )),
     );
 
-    return SafeArea(
-        child: Scaffold(
-            body: SingleChildScrollView(
+    return Scaffold(
+        body: SingleChildScrollView(
       child: Column(
         children: [
           Container(
@@ -139,9 +144,9 @@ class _LoginState extends State<Login> {
                           image: AssetImage("assets/images/c.jpg"),
                           fit: BoxFit.cover)),
                   width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.only(left: 20, right: 20, top: 25),
-                  // color: Colors.blue.shade900.withOpacity(0.9),
-                  height: MediaQuery.of(context).size.height * 0.45,
+                  padding: EdgeInsets.only(left: 20, right: 20, top: 45),
+                  // color: Colors.blue.shade900.withOpacity(0.9),3
+                  height: MediaQuery.of(context).size.height * 0.55,
                   alignment: Alignment.topLeft,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,22 +155,21 @@ class _LoginState extends State<Login> {
                           onTap: () {
                             Get.back();
                           },
-                          child: Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.white,
+                          child: CircleAvatar(
+                            radius: 23,
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.black,
+                              size: 21,
+                            ),
                           )),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.1,
                       ),
                       Text(
-                        globals.isAdmin! ? 'Welcome\nAdmin' : 'Welcome\nUser',
-                        style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.2,
-                          color: Colors.white,
-                        ),
-                      ),
+                          globals.isAdmin! ? 'Welcome\nAdmin' : 'Welcome\nUser',
+                          style: Theme.of(context).textTheme.headline1),
                     ],
                   )),
             ),
@@ -186,14 +190,16 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.08,
                   ),
-                  signUpButton
+                  globals.isloading == true
+                      ? CircularProgressIndicator()
+                      : signUpButton
                 ],
               ),
             ),
           )
         ],
       ),
-    )));
+    ));
 
     //     body: SingleChildScrollView(
     //   child: Container(

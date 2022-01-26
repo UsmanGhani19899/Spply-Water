@@ -87,122 +87,119 @@ class IntroScreen extends StatefulWidget {
 class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        // backgroundColor: Colors.blue.shade900.withOpacity(0.9),
-        body: Stack(
-          children: [
-            Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/images/c.jpg"),
-                        fit: BoxFit.cover)),
-                foregroundDecoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.center,
-                        colors: [
-                      Colors.black,
-                      Colors.black,
-                      Colors.black.withOpacity(0.8),
-                      Colors.black.withOpacity(0)
-                    ]))),
-            Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15, bottom: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text("GRACEFUL",
-                      style: GoogleFonts.openSans(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 40,
+    return Scaffold(
+      // backgroundColor: Colors.blue.shade900.withOpacity(0.9),
+      body: Stack(
+        children: [
+          Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/c.jpg"),
+                      fit: BoxFit.cover)),
+              foregroundDecoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.center,
+                      colors: [
+                    Colors.black,
+                    Colors.black,
+                    Colors.black.withOpacity(0.8),
+                    Colors.black.withOpacity(0)
+                  ]))),
+          Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15, bottom: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text("GRACEFUL",
+                    style: GoogleFonts.openSans(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 40,
+                        color: Colors.white)),
+                Text("Water Supply",
+                    style: GoogleFonts.openSans(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 23,
+                        color: Colors.white)),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.85,
+                  child: Text("We will deliver water with purest quality",
+                      style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w200,
+                          fontSize: 14,
                           color: Colors.white)),
-                  Text("Water Supply",
-                      style: GoogleFonts.openSans(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 23,
-                          color: Colors.white)),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    child: Text("We will deliver water with purest quality",
-                        style: GoogleFonts.montserrat(
-                            fontWeight: FontWeight.w200,
-                            fontSize: 14,
-                            color: Colors.white)),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.06,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            globals.isAdmin = false;
-                          });
-                          Get.to(Login());
-                        },
-                        child: Text(
-                          "Login Customer",
-                          style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
-                        ),
-                        style: ElevatedButton.styleFrom(primary: Colors.white),
-                      )),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.06,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Get.to(SignUp());
-                        },
-                        child: Text(
-                          "SignUp Customer",
-                          style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.white, elevation: 0),
-                      )),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.06,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            globals.isAdmin = true;
-                          });
-                          Get.to(Login());
-                        },
-                        child: Text(
-                          "Admin",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.transparent,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                                side:
-                                    BorderSide(color: Colors.white, width: 0.5),
-                                borderRadius: BorderRadius.circular(5))),
-                      )),
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          globals.isAdmin = false;
+                        });
+                        Get.to(Login());
+                      },
+                      child: Text(
+                        "Login Customer",
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                      ),
+                      style: ElevatedButton.styleFrom(primary: Colors.white),
+                    )),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.to(SignUp());
+                      },
+                      child: Text(
+                        "SignUp Customer",
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.white, elevation: 0),
+                    )),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          globals.isAdmin = true;
+                        });
+                        Get.to(Login());
+                      },
+                      child: Text(
+                        "Admin",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.transparent,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide(color: Colors.white, width: 0.5),
+                              borderRadius: BorderRadius.circular(5))),
+                    )),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
