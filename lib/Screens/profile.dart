@@ -15,6 +15,7 @@ import 'package:Graceful/Screens/User/login.dart';
 import 'package:Graceful/Globals/global_variable.dart' as globals;
 import 'package:hexcolor/hexcolor.dart';
 
+import 'chat_screen.dart';
 import 'introScreen.dart';
 
 class Profile extends StatefulWidget {
@@ -58,6 +59,19 @@ class _ProfileState extends State<Profile> {
             ],
           );
         });
+  }
+
+  Future<void> createAppointChatRoom() async {
+    List<String?> users = ["omLoExbq14RvemgHueQPuU7ifQF3", globals.prefId];
+    FirebaseFirestore.instance
+        .collection('appointchatroom')
+        .doc(globals.prefId)
+        .set({
+      "users": users,
+      "chatRoomId": globals.prefId,
+    });
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ChatScreen(globals.prefId)));
   }
 
   Widget build(BuildContext context) {
@@ -159,7 +173,7 @@ class _ProfileState extends State<Profile> {
                               ),
                               ListTile(
                                 onTap: () {
-                                  Get.to(ContactUs());
+                                  createAppointChatRoom();
                                 },
                                 tileColor: Colors.white,
                                 shape: RoundedRectangleBorder(

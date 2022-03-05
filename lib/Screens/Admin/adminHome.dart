@@ -14,6 +14,7 @@ import 'package:Graceful/Screens/Admin/userInfo.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:lottie/lottie.dart';
 
+import '../chat_screen.dart';
 import '../introScreen.dart';
 
 class AdminHome extends StatefulWidget {
@@ -52,6 +53,19 @@ class _AdminHomeState extends State<AdminHome> with TickerProviderStateMixin {
         )
       ]),
     );
+  }
+
+  Future<void> createAppointChatRoom(String customerId) async {
+    List<String?> users = ["omLoExbq14RvemgHueQPuU7ifQF3", customerId];
+    FirebaseFirestore.instance
+        .collection('appointchatroom')
+        .doc(customerId)
+        .set({
+      "users": users,
+      "chatRoomId": customerId,
+    });
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ChatScreen(customerId)));
   }
 
   @override
@@ -340,7 +354,9 @@ class _AdminHomeState extends State<AdminHome> with TickerProviderStateMixin {
                                 Row(
                                   children: [
                                     IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          createAppointChatRoom(dcumet['uid']);
+                                        },
                                         icon: Icon(
                                           Icons.message,
                                           color: Colors.black,

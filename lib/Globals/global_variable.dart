@@ -5,3 +5,4 @@ String? currentUserId;
 // bool isloading = false;
 bool? isLoggedCheck;
 String? prefId;
+String? customerId;
