@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:water_supply/Core/auth.dart';
+import 'package:Graceful/Core/auth.dart';
 
 class PendingStatus extends StatefulWidget {
   const PendingStatus({Key? key}) : super(key: key);

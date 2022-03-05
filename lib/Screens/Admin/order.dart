@@ -3,8 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:water_supply/Core/database.dart';
-import 'package:water_supply/Globals/global_variable.dart';
+import 'package:Graceful/Core/database.dart';
+import 'package:Graceful/Globals/global_variable.dart';
 
 class OrderScreen extends StatefulWidget {
   final String? userID;

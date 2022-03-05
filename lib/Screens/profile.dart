@@ -1,17 +1,19 @@
+import 'package:Graceful/Screens/Admin/contactUs.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:water_supply/Core/auth.dart';
-import 'package:water_supply/Core/database.dart';
-import 'package:water_supply/Model/user_model.dart';
-import 'package:water_supply/Screens/Admin/about.dart';
-import 'package:water_supply/Screens/Admin/orderStatus.dart';
-import 'package:water_supply/Screens/Admin/ourteam.dart';
-import 'package:water_supply/Screens/User/login.dart';
-import 'package:water_supply/Globals/global_variable.dart' as globals;
+import 'package:Graceful/Core/auth.dart';
+import 'package:Graceful/Core/database.dart';
+import 'package:Graceful/Model/user_model.dart';
+import 'package:Graceful/Screens/Admin/about.dart';
+import 'package:Graceful/Screens/Admin/orderStatus.dart';
+import 'package:Graceful/Screens/Admin/ourteam.dart';
+import 'package:Graceful/Screens/User/login.dart';
+import 'package:Graceful/Globals/global_variable.dart' as globals;
+import 'package:hexcolor/hexcolor.dart';
 
 import 'introScreen.dart';
 
@@ -62,11 +64,14 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        toolbarHeight: 70,
-        backgroundColor: Colors.blue.shade900.withOpacity(0.9),
+        toolbarHeight: 80,
+        backgroundColor: HexColor("#1167B1"),
         title: Text(
           "Profile",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: GoogleFonts.montserrat(
+            fontSize: 22,
+            fontWeight: FontWeight.w400,
+          ),
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -88,30 +93,33 @@ class _ProfileState extends State<Profile> {
                       child: Column(
                         children: [
                           CircleAvatar(
-                              radius: 45,
+                              radius: 50,
                               child: Icon(
                                 Icons.person,
                                 size: 34,
                               )),
                           SizedBox(
-                            height: 20,
+                            height: 15,
                           ),
                           Text(
                             "${dcumetUser["name"]}",
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w600),
+                            style: GoogleFonts.montserrat(
+                                fontSize: 23, fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(
+                            height: 5,
                           ),
                           Text(
                             "${dcumetUser["email"]}",
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w400),
+                            style: GoogleFonts.montserrat(
+                                fontSize: 17, fontWeight: FontWeight.w300),
                           ),
                           SizedBox(
                             height: 70,
                           ),
                           Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               ListTile(
                                 onTap: () {
@@ -121,7 +129,12 @@ class _ProfileState extends State<Profile> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 leading: Icon(Icons.info),
-                                title: Text("About"),
+                                title: Text(
+                                  "About",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
+                                ),
                               ),
                               SizedBox(
                                 height: 10,
@@ -134,18 +147,30 @@ class _ProfileState extends State<Profile> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 leading: Icon(Icons.manage_accounts),
-                                title: Text("Our Team"),
+                                title: Text(
+                                  "Our Team",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
+                                ),
                               ),
                               SizedBox(
                                 height: 10,
                               ),
                               ListTile(
-                                onTap: () {},
+                                onTap: () {
+                                  Get.to(ContactUs());
+                                },
                                 tileColor: Colors.white,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 leading: Icon(Icons.contact_phone),
-                                title: Text("Contact Us"),
+                                title: Text(
+                                  "Contact Us",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
+                                ),
                               ),
                               SizedBox(
                                 height: 10,
@@ -160,7 +185,12 @@ class _ProfileState extends State<Profile> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 leading: Icon(Icons.logout),
-                                title: Text("Logout"),
+                                title: Text(
+                                  "Logout",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
+                                ),
                               ),
                             ],
                           ),

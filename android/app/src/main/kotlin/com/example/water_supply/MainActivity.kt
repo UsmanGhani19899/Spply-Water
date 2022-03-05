@@ -1,4 +1,4 @@
-package com.example.water_supply
+package com.example.Graceful
 
 import io.flutter.embedding.android.FlutterActivity
 

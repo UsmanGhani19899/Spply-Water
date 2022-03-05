@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:water_supply/Core/database.dart';
-import 'package:water_supply/Globals/global_variable.dart' as globals;
+import 'package:Graceful/Core/database.dart';
+import 'package:Graceful/Globals/global_variable.dart' as globals;
+import 'package:hexcolor/hexcolor.dart';
+import 'package:lottie/lottie.dart';
 
 class UserOrders extends StatefulWidget {
   const UserOrders({Key? key}) : super(key: key);
@@ -29,10 +31,13 @@ class _UserOrdersState extends State<UserOrders> with TickerProviderStateMixin {
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
-          backgroundColor: Colors.blue.shade900.withOpacity(0.9),
+          backgroundColor: HexColor("#1167B1"),
           title: Text(
             "Orders",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: GoogleFonts.montserrat(
+              fontSize: 22,
+              fontWeight: FontWeight.w400,
+            ),
           ),
           toolbarHeight: 70,
           bottom: TabBar(
@@ -60,7 +65,14 @@ class _UserOrdersState extends State<UserOrders> with TickerProviderStateMixin {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(
+                      child: Container(
+                    alignment: Alignment.center,
+                    child:
+                        Lottie.asset("assets/images/68476-loading-please.json"),
+                    height: 55,
+                    width: 55,
+                  ));
                 } else if (snapshot.data!.docs.isEmpty) {
                   return Padding(
                     padding: EdgeInsets.only(
@@ -98,16 +110,23 @@ class _UserOrdersState extends State<UserOrders> with TickerProviderStateMixin {
                             width: MediaQuery.of(context).size.width * 0.25,
                             decoration: BoxDecoration(
                                 color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 3,
+                                    offset: Offset(0, 1),
+                                    color: Colors.grey.withOpacity(0.1),
+                                    spreadRadius: 3,
+                                  )
+                                ],
                                 borderRadius: BorderRadius.circular(10)),
                             child: Row(
                               children: [
                                 CircleAvatar(
                                   backgroundColor:
-                                      Colors.black.withOpacity(0.75),
+                                      Colors.black.withOpacity(0.85),
                                   radius: 50,
                                   child: Image(
-                                    image:
-                                        AssetImage("assets/images/gallon.png"),
+                                    image: AssetImage("assets/images/logo.png"),
                                     height: MediaQuery.of(context).size.height *
                                         0.09,
                                   ),
@@ -142,22 +161,6 @@ class _UserOrdersState extends State<UserOrders> with TickerProviderStateMixin {
                                     SizedBox(
                                       height: 5,
                                     ),
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            elevation: 0.0,
-                                            shape: RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                    color: Colors.green)),
-                                            primary: Colors.transparent,
-                                            shadowColor: Colors.transparent),
-                                        onPressed: () {
-                                          db.updateStatus(
-                                              snapshot.data!.docs[index].id);
-                                        },
-                                        child: Text(
-                                          "Recieved",
-                                          style: TextStyle(color: Colors.green),
-                                        )),
                                   ],
                                 ),
                                 // Spacer(),
@@ -205,7 +208,14 @@ class _UserOrdersState extends State<UserOrders> with TickerProviderStateMixin {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(
+                      child: Container(
+                    alignment: Alignment.center,
+                    child:
+                        Lottie.asset("assets/images/68476-loading-please.json"),
+                    height: 55,
+                    width: 55,
+                  ));
                 } else if (snapshot.data!.docs.isEmpty) {
                   return Padding(
                     padding: EdgeInsets.only(
@@ -248,16 +258,24 @@ class _UserOrdersState extends State<UserOrders> with TickerProviderStateMixin {
                                   width: MediaQuery.of(context).size.width,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: 3,
+                                          offset: Offset(0, 1),
+                                          color: Colors.grey.withOpacity(0.1),
+                                          spreadRadius: 3,
+                                        )
+                                      ],
                                       borderRadius: BorderRadius.circular(10)),
                                   child: Row(
                                     children: [
                                       CircleAvatar(
                                         backgroundColor:
-                                            Colors.black.withOpacity(0.75),
+                                            Colors.black.withOpacity(0.85),
                                         radius: 50,
                                         child: Image(
                                           image: AssetImage(
-                                              "assets/images/gallon.png"),
+                                              "assets/images/logo.png"),
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *

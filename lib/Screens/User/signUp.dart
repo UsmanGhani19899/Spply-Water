@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:water_supply/Core/auth.dart';
-import 'package:water_supply/Globals/global_variable.dart' as globals;
+import 'package:Graceful/Core/auth.dart';
+import 'package:Graceful/Globals/global_variable.dart' as globals;
+import 'package:hexcolor/hexcolor.dart';
+import 'package:lottie/lottie.dart';
 
 import 'login.dart';
 
@@ -26,7 +28,7 @@ class _SignUpState extends State<SignUp> {
   final phoneNoController = new TextEditingController();
 
   Auth auth = Auth();
-
+  bool isloading = false;
   @override
   Widget build(BuildContext context) {
     //first name field
@@ -141,11 +143,11 @@ class _SignUpState extends State<SignUp> {
     final phoneNoField = TextFormField(
         autofocus: false,
         controller: phoneNoController,
-        keyboardType: TextInputType.name,
+        keyboardType: TextInputType.phone,
         validator: (value) {
           RegExp regex = new RegExp(r'^.{3,}$');
           if (value!.isEmpty) {
-            return ("First Name cannot be Empty");
+            return ("Phone No cannot be empty");
           }
           if (!regex.hasMatch(value)) {
             return ("Enter Valid name(Min. 3 Character)");
@@ -169,26 +171,27 @@ class _SignUpState extends State<SignUp> {
     final signUpButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(10),
-      color: Colors.blue.shade900.withOpacity(0.9),
+      color: HexColor("#1167B1"),
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
-          onPressed: () async {
+          onPressed: () {
             setState(() {
-              globals.isloading = true;
+              isloading = true;
             });
-            await auth.signUp(
-              email: emailEditingController.text,
-              formkey: _formKey,
-              context: context,
-              namecontroller: nameController,
-              adressController: addressController,
-              phoneNocontroller: phoneNoController,
-              password: passwordEditingController.text,
-            );
-            setState(() {
-              globals.isloading = false;
-            });
+            auth
+                .signUp(
+                  email: emailEditingController.text,
+                  formkey: _formKey,
+                  context: context,
+                  namecontroller: nameController,
+                  adressController: addressController,
+                  phoneNocontroller: phoneNoController,
+                  password: passwordEditingController.text,
+                )
+                .then((value) => setState(() {
+                      isloading = false;
+                    }));
           },
           child: Text(
             "SignUp",
@@ -214,6 +217,9 @@ class _SignUpState extends State<SignUp> {
                     decoration: BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage("assets/images/c.jpg"),
+                            colorFilter: ColorFilter.mode(
+                                Colors.black.withOpacity(0.5),
+                                BlendMode.darken),
                             fit: BoxFit.cover)),
                     padding: EdgeInsets.only(left: 20, top: 45, right: 20),
                     // color: Colors.blue.shade900.withOpacity(0.9),
@@ -229,10 +235,12 @@ class _SignUpState extends State<SignUp> {
                             child: CircleAvatar(
                               radius: 23,
                               backgroundColor: Colors.white,
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.black,
-                                size: 21,
+                              child: Center(
+                                child: Icon(
+                                  Icons.arrow_back,
+                                  color: Colors.black,
+                                  size: 21,
+                                ),
                               ),
                             )),
                         SizedBox(
@@ -270,8 +278,17 @@ class _SignUpState extends State<SignUp> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.05,
                       ),
-                      globals.isloading == true
-                          ? CircularProgressIndicator()
+                      // globals.isloading == true
+                      //     ? CircularProgressIndicator()
+                      //     : signUpButton,
+                      isloading
+                          ? Container(
+                              alignment: Alignment.center,
+                              child: Lottie.asset(
+                                  "assets/images/68476-loading-please.json"),
+                              height: 55,
+                              width: 55,
+                            )
                           : signUpButton,
                       SizedBox(
                         height: 15,

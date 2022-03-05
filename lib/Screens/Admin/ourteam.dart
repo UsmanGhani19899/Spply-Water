@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class OurTeam extends StatelessWidget {
   const OurTeam({Key? key}) : super(key: key);
@@ -49,13 +50,13 @@ class OurTeam extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
-        backgroundColor: Colors.blue.shade900.withOpacity(0.9),
+        backgroundColor: HexColor("#1167B1"),
         title: Text("Our Team"),
         leading: IconButton(
             onPressed: () {
               Get.back();
             },
-            icon: Icon(Icons.arrow_back_ios)),
+            icon: Icon(Icons.arrow_back)),
       ),
       body: Column(
         children: [

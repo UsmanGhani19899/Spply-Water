@@ -1,10 +1,11 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:water_supply/Screens/User/bottombar.dart';
-import 'package:water_supply/Screens/User/user_admin_pending.dart';
-import 'package:water_supply/Screens/User/user_orders.dart';
-import 'package:water_supply/Globals/global_variable.dart' as globals;
+import 'package:Graceful/Screens/User/bottombar.dart';
+import 'package:Graceful/Screens/User/user_admin_pending.dart';
+import 'package:Graceful/Screens/User/user_orders.dart';
+import 'package:Graceful/Globals/global_variable.dart' as globals;
+import 'package:hexcolor/hexcolor.dart';
 import '../home.dart';
 import '../introScreen.dart';
 import '../profile.dart';
@@ -41,15 +42,25 @@ class _UserBottomBarState extends State<UserBottomBar> {
         child: BottomNavyBar(
           selectedIndex: _currentIndex,
           itemCornerRadius: 10,
+          // backgroundColor: Colors.blue.shade900.withOpacity(0.9),
+
           onItemSelected: (index) {
             setState(() => _currentIndex = index);
             _pageController.jumpToPage(index);
           },
           items: <BottomNavyBarItem>[
-            BottomNavyBarItem(title: Text('Home'), icon: Icon(Icons.home)),
             BottomNavyBarItem(
-                title: Text('Orders'), icon: Icon(Icons.shopping_bag)),
-            BottomNavyBarItem(title: Text('Profile'), icon: Icon(Icons.person)),
+                activeColor: HexColor("#1167B1"),
+                title: Text('Home'),
+                icon: Icon(Icons.home)),
+            BottomNavyBarItem(
+                activeColor: HexColor("#1167B1"),
+                title: Text('Orders'),
+                icon: Icon(Icons.shopping_bag)),
+            BottomNavyBarItem(
+                activeColor: HexColor("#1167B1"),
+                title: Text('Profile'),
+                icon: Icon(Icons.person)),
           ],
         ),
       ),
@@ -123,6 +134,7 @@ class _UserBottomBarState extends State<UserBottomBar> {
       //           });
       //     }),
       body: PageView(
+        physics: NeverScrollableScrollPhysics(),
         scrollDirection: Axis.horizontal,
         controller: _pageController,
         onPageChanged: (index) {

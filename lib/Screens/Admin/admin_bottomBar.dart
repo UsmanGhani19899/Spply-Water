@@ -1,10 +1,11 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:water_supply/Core/database.dart';
-import 'package:water_supply/Model/user_model.dart';
-import 'package:water_supply/Screens/Admin/adminHome.dart';
-import 'package:water_supply/Screens/Admin/orderStatus.dart';
+import 'package:Graceful/Core/database.dart';
+import 'package:Graceful/Model/user_model.dart';
+import 'package:Graceful/Screens/Admin/adminHome.dart';
+import 'package:Graceful/Screens/Admin/orderStatus.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 import '../home.dart';
 import '../profile.dart';
@@ -77,6 +78,7 @@ class _WaterSupplyBottomBarState extends State<WaterSupplyBottomBar> {
       // ),
 
       body: PageView(
+        physics: NeverScrollableScrollPhysics(),
         controller: _pageController,
         onPageChanged: (index) {
           setState(() => _currentIndex = index);
@@ -104,10 +106,18 @@ class _WaterSupplyBottomBarState extends State<WaterSupplyBottomBar> {
           _pageController.jumpToPage(index);
         },
         items: <BottomNavyBarItem>[
-          BottomNavyBarItem(title: Text('Home'), icon: Icon(Icons.home)),
           BottomNavyBarItem(
-              title: Text('Orders'), icon: Icon(Icons.shopping_bag)),
-          BottomNavyBarItem(title: Text('Profile'), icon: Icon(Icons.person)),
+              activeColor: HexColor("#1167B1"),
+              title: Text('Home'),
+              icon: Icon(Icons.home)),
+          BottomNavyBarItem(
+              activeColor: HexColor("#1167B1"),
+              title: Text('Orders'),
+              icon: Icon(Icons.shopping_bag)),
+          BottomNavyBarItem(
+              activeColor: HexColor("#1167B1"),
+              title: Text('Profile'),
+              icon: Icon(Icons.person)),
         ],
       ),
     );

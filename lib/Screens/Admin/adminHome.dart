@@ -5,12 +5,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:water_supply/Core/auth.dart';
-import 'package:water_supply/Core/database.dart';
-import 'package:water_supply/Globals/global_variable.dart' as globals;
-import 'package:water_supply/Screens/Admin/inbox_admin.dart';
-import 'package:water_supply/Screens/Admin/order.dart';
-import 'package:water_supply/Screens/Admin/userInfo.dart';
+import 'package:Graceful/Core/auth.dart';
+import 'package:Graceful/Core/database.dart';
+import 'package:Graceful/Globals/global_variable.dart' as globals;
+import 'package:Graceful/Screens/Admin/inbox_admin.dart';
+import 'package:Graceful/Screens/Admin/order.dart';
+import 'package:Graceful/Screens/Admin/userInfo.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:lottie/lottie.dart';
 
 import '../introScreen.dart';
 
@@ -59,11 +61,12 @@ class _AdminHomeState extends State<AdminHome> with TickerProviderStateMixin {
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
-          backgroundColor: Colors.blue.shade900.withOpacity(0.9),
+          toolbarHeight: 80,
+          backgroundColor: HexColor("#1167B1"),
           title: Text(
             "GraceFul",
             style: GoogleFonts.roboto(
-                fontSize: 25, fontWeight: FontWeight.bold, letterSpacing: 0.4),
+                fontSize: 25, fontWeight: FontWeight.w400, letterSpacing: 0.5),
           ),
           actions: [
             IconButton(
@@ -118,7 +121,14 @@ class _AdminHomeState extends State<AdminHome> with TickerProviderStateMixin {
               builder: (context, snapshot) {
                 print("snapshot.data ${snapshot.hasData}");
                 if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(
+                      child: Container(
+                    alignment: Alignment.center,
+                    child:
+                        Lottie.asset("assets/images/68476-loading-please.json"),
+                    height: 55,
+                    width: 55,
+                  ));
                 } else if (snapshot.data!.docs.isEmpty) {
                   return Padding(
                     padding: EdgeInsets.only(

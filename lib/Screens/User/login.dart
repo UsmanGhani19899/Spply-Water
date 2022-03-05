@@ -1,14 +1,17 @@
+import 'package:Graceful/Screens/User/forgotpass.dart';
+import 'package:Graceful/Widgets/loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:water_supply/Core/auth.dart';
-import 'package:water_supply/Model/user_model.dart';
-import 'package:water_supply/Screens/Admin/admin.dart';
-import 'package:water_supply/Screens/home.dart';
+import 'package:Graceful/Core/auth.dart';
+import 'package:Graceful/Model/user_model.dart';
+import 'package:Graceful/Screens/Admin/admin.dart';
+import 'package:Graceful/Screens/home.dart';
 
-import 'package:water_supply/Globals/global_variable.dart' as globals;
+import 'package:Graceful/Globals/global_variable.dart' as globals;
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -25,7 +28,7 @@ User? user;
 
 class _LoginState extends State<Login> {
   bool showPass = true;
-  bool loading = false;
+  bool isloading = false;
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -101,27 +104,27 @@ class _LoginState extends State<Login> {
           //   borderRadius: BorderRadius.circular(10),
           // ),
         ));
-    final signUpButton = Material(
+    final signInButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(10),
-      color: Colors.blue.shade900.withOpacity(0.9),
+      color: HexColor("#1167B1"),
       child: MaterialButton(
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
           onPressed: () async {
-            if (_formKey.currentState!.validate()) {
-              setState(() {
-                globals.isloading = true;
-              });
-              await auth.signIn(
-                  email: emailEditingController.text,
-                  password: passwordEditingController.text,
-                  formkey: _formKey,
-                  context: context);
-              setState(() {
-                globals.isloading = false;
-              });
-            } else {}
+            setState(() {
+              isloading = true;
+            });
+
+            await auth
+                .signIn(
+                    email: emailEditingController.text,
+                    password: passwordEditingController.text,
+                    formkey: _formKey,
+                    context: context)
+                .then((value) => setState(() {
+                      isloading = false;
+                    }));
           },
           child: Text(
             "SignIn",
@@ -142,6 +145,8 @@ class _LoginState extends State<Login> {
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage("assets/images/c.jpg"),
+                          colorFilter: ColorFilter.mode(
+                              Colors.black.withOpacity(0.5), BlendMode.darken),
                           fit: BoxFit.cover)),
                   width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.only(left: 20, right: 20, top: 45),
@@ -158,10 +163,12 @@ class _LoginState extends State<Login> {
                           child: CircleAvatar(
                             radius: 23,
                             backgroundColor: Colors.white,
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              color: Colors.black,
-                              size: 21,
+                            child: Center(
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: Colors.black,
+                                size: 21,
+                              ),
                             ),
                           )),
                       SizedBox(
@@ -188,11 +195,21 @@ class _LoginState extends State<Login> {
                   ),
                   passwordField,
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.08,
+                    height: MediaQuery.of(context).size.height * 0.04,
                   ),
-                  globals.isloading == true
-                      ? CircularProgressIndicator()
-                      : signUpButton
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(ForgotPasswordGrace());
+                    },
+                    child: Text(
+                      "Forgot Password?",
+                      style: GoogleFonts.montserrat(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.04,
+                  ),
+                  isloading ? CircularProgressIndicator() : signInButton,
                 ],
               ),
             ),

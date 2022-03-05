@@ -7,16 +7,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:water_supply/Globals/global_variable.dart' as globals;
-import 'package:water_supply/Screens/Admin/adminHome.dart';
-import 'package:water_supply/Screens/Admin/admin_bottomBar.dart';
-import 'package:water_supply/Screens/User/customer_BottomBar.dart';
-import 'package:water_supply/Screens/User/login.dart';
-import 'package:water_supply/Screens/User/signUp.dart';
-import 'package:water_supply/Screens/home.dart';
-import 'package:water_supply/Screens/introScreen.dart';
-import 'package:water_supply/Widgets/authhandle.dart';
+import 'package:Graceful/Globals/global_variable.dart' as globals;
 
+import 'Screens/introScreen.dart';
 import 'Screens/splash.dart';
 
 Future<void> main() async {
@@ -25,17 +18,17 @@ Future<void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   globals.isLoggedCheck = prefs.getBool('isLoggedIn');
   globals.prefId = prefs.getString('userId');
-  runApp(WaterSupply());
+  runApp(Graceful());
 }
 
-class WaterSupply extends StatefulWidget {
-  const WaterSupply({Key? key}) : super(key: key);
+class Graceful extends StatefulWidget {
+  const Graceful({Key? key}) : super(key: key);
 
   @override
-  State<WaterSupply> createState() => _WaterSupplyState();
+  State<Graceful> createState() => _GracefulState();
 }
 
-class _WaterSupplyState extends State<WaterSupply> {
+class _GracefulState extends State<Graceful> {
   Widget currentPage = IntroScreen();
 
   void initState() {
@@ -68,19 +61,19 @@ class _WaterSupplyState extends State<WaterSupply> {
       debugShowCheckedModeBanner: false,
       home: Splash(),
       theme: ThemeData(
-        textTheme: GoogleFonts.varelaRoundTextTheme().copyWith(
-            headline1: GoogleFonts.oxygen(
-              fontSize: 40,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-            headline2: GoogleFonts.oxygen(
-              fontSize: 32,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            )),
-        backgroundColor: HexColor("F2F2F2F2"),
-      ),
+          textTheme: GoogleFonts.varelaRoundTextTheme().copyWith(
+              headline1: GoogleFonts.montserrat(
+                fontSize: 40,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+              headline2: GoogleFonts.montserrat(
+                fontSize: 32,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              )),
+          // backgroundColor: HexColor("F2F2F2F2"),
+          backgroundColor: Colors.white),
     );
   }
 }

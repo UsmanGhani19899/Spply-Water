@@ -3,8 +3,8 @@
 // import 'package:get/get.dart';
 // import 'package:google_fonts/google_fonts.dart';
 // import 'package:hexcolor/hexcolor.dart';
-// import 'package:water_supply/Widgets/app_Btn.dart';
-// import 'package:water_supply/Globals/global_variable.dart' as globals;
+// import 'package:Graceful/Widgets/app_Btn.dart';
+// import 'package:Graceful/Globals/global_variable.dart' as globals;
 // import 'User/login.dart';
 // import 'User/signUp.dart';
 
@@ -73,9 +73,10 @@ import 'package:flutter/painting.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:water_supply/Globals/global_variable.dart' as globals;
-import 'package:water_supply/Screens/User/login.dart';
-import 'package:water_supply/Screens/User/signUp.dart';
+import 'package:Graceful/Globals/global_variable.dart' as globals;
+import 'package:Graceful/Screens/User/login.dart';
+import 'package:Graceful/Screens/User/signUp.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({Key? key}) : super(key: key);
@@ -96,16 +97,18 @@ class _IntroScreenState extends State<IntroScreen> {
                   image: DecorationImage(
                       image: AssetImage("assets/images/c.jpg"),
                       fit: BoxFit.cover)),
-              foregroundDecoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.center,
-                      colors: [
-                    Colors.black,
-                    Colors.black,
-                    Colors.black.withOpacity(0.8),
-                    Colors.black.withOpacity(0)
-                  ]))),
+              foregroundDecoration:
+                  BoxDecoration(color: Colors.black.withOpacity(0.5)
+                      // gradient: LinearGradient(
+                      //     begin: Alignment.bottomCenter,
+                      //     end: Alignment.center,
+                      //     colors: [
+                      //   Colors.black,
+                      //   Colors.black,
+                      //   Colors.black.withOpacity(0.8),
+                      //   Colors.black.withOpacity(0)
+                      // ])
+                      )),
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15, bottom: 20),
             child: Column(
@@ -113,20 +116,23 @@ class _IntroScreenState extends State<IntroScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text("GRACEFUL",
-                    style: GoogleFonts.openSans(
+                    style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.w600,
-                        fontSize: 40,
+                        fontSize: 43,
                         color: Colors.white)),
-                Text("Water Supply",
-                    style: GoogleFonts.openSans(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 23,
-                        color: Colors.white)),
+                // Text("Water Supply",
+                //     style: GoogleFonts.openSans(
+                //         fontWeight: FontWeight.w600,
+                //         fontSize: 23,
+                //         color: Colors.white)),
+                // SizedBox(
+                //   height: 0,
+                // ),
                 SizedBox(
-                  height: 20,
+                  height: 5,
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.85,
+                  width: MediaQuery.of(context).size.width * 0.6,
                   child: Text("We will deliver water with purest quality",
                       style: GoogleFonts.montserrat(
                           fontWeight: FontWeight.w200,
@@ -138,7 +144,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 ),
                 Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.06,
+                    height: MediaQuery.of(context).size.height * 0.065,
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -147,36 +153,43 @@ class _IntroScreenState extends State<IntroScreen> {
                         Get.to(Login());
                       },
                       child: Text(
-                        "Login Customer",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
+                        "Login",
+                        style: GoogleFonts.montserrat(
+                            color: Colors.black, fontWeight: FontWeight.w600),
                       ),
-                      style: ElevatedButton.styleFrom(primary: Colors.white),
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25))),
                     )),
                 SizedBox(
                   height: 15,
                 ),
                 Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.06,
+                    height: MediaQuery.of(context).size.height * 0.065,
                     child: ElevatedButton(
                       onPressed: () {
                         Get.to(SignUp());
                       },
                       child: Text(
-                        "SignUp Customer",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
+                        "SignUp",
+                        style: GoogleFonts.montserrat(
+                            color: Colors.black, fontWeight: FontWeight.w600),
                       ),
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.white, elevation: 0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25)),
+                          primary: Colors.white,
+                          elevation: 0),
                     )),
                 SizedBox(
                   height: 15,
                 ),
                 Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.06,
+                    height: MediaQuery.of(context).size.height * 0.065,
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -186,15 +199,15 @@ class _IntroScreenState extends State<IntroScreen> {
                       },
                       child: Text(
                         "Admin",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                        style: GoogleFonts.montserrat(
+                            color: Colors.white, fontWeight: FontWeight.w600),
                       ),
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.transparent,
+                          primary: HexColor("#1167B1"),
                           elevation: 0,
                           shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.white, width: 0.5),
-                              borderRadius: BorderRadius.circular(5))),
+                              side: BorderSide(color: Colors.blue, width: 0.5),
+                              borderRadius: BorderRadius.circular(25))),
                     )),
               ],
             ),

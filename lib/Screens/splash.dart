@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:lottie/lottie.dart';
-import 'package:water_supply/Globals/global_variable.dart';
-import 'package:water_supply/Globals/global_variable.dart' as globals;
-import 'package:water_supply/Screens/Admin/adminHome.dart';
-import 'package:water_supply/Screens/Admin/admin_bottomBar.dart';
-import 'package:water_supply/Screens/User/customer_BottomBar.dart';
-import 'package:water_supply/Screens/home.dart';
-import 'package:water_supply/Screens/introScreen.dart';
+import 'package:Graceful/Globals/global_variable.dart';
+import 'package:Graceful/Globals/global_variable.dart' as globals;
+import 'package:Graceful/Screens/Admin/adminHome.dart';
+import 'package:Graceful/Screens/Admin/admin_bottomBar.dart';
+import 'package:Graceful/Screens/User/customer_BottomBar.dart';
+import 'package:Graceful/Screens/home.dart';
+import 'package:Graceful/Screens/introScreen.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);

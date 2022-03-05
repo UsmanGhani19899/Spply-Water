@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:water_supply/Model/orderModel.dart';
-import 'package:water_supply/Model/user_model.dart';
-import 'package:water_supply/Screens/User/login.dart';
-import 'package:water_supply/Globals/global_variable.dart' as globals;
+import 'package:Graceful/Model/orderModel.dart';
+import 'package:Graceful/Model/user_model.dart';
+import 'package:Graceful/Screens/User/login.dart';
+import 'package:Graceful/Globals/global_variable.dart' as globals;
 
 class Database {
   FirebaseFirestore? firestore;

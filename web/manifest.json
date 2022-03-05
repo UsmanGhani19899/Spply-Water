@@ -1,6 +1,6 @@
 {
-    "name": "water_supply",
-    "short_name": "water_supply",
+    "name": "Graceful",
+    "short_name": "Graceful",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
